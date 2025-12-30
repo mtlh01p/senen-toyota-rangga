@@ -10,13 +10,15 @@ export type Station = {
 export type BRTCorridor = {
   id: number;
   color: string;
-  stationIds: string[];
+  stationIdsDir1: string[];
+  stationIdsDir2: string[];
 };
 
 export type CBRTLine = {
   id: string;
   color: string;
-  stationIds: string[];
+  stationIdsDir1: string[];
+  stationIdsDir2: string[];
 };
 
 export type NBRTLine = {

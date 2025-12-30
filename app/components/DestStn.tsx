@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Station, BRTCorridor, CBRTLine } from "@/types/index";
 import StnRoundel from "@/app/components/StnRoundel";
@@ -14,11 +15,20 @@ export default function DestStn({ station, line_foc }: Props) {
     typeof line_foc.id === "number" &&
     station.brtCorridorIds.includes(line_foc.id);
 
-  const firstBrtId = [...station.brtCorridorIds].sort((a, b) => a - b)[0];
+    const sortedBrtIds = [...station.brtCorridorIds].sort((a, b) => a - b);
 
-  const firstBrtCode = station.codes.find(
-    c => c.corridorId === firstBrtId
-  );
+    const firstValid = sortedBrtIds.find(id =>
+      station.codes.some(c => c.corridorId === id) &&
+      main_corridors.some(c => c.id === id)
+    );
+
+    const firstBrtCode = firstValid
+      ? station.codes.find(c => c.corridorId === firstValid)
+      : null;
+
+    const firstCorridor = firstValid
+      ? main_corridors.find(c => c.id === firstValid)
+      : null;
 
   const focusedCode = isFocusedBrt
     ? station.codes.find(c => c.corridorId === line_foc.id)
@@ -28,8 +38,6 @@ export default function DestStn({ station, line_foc }: Props) {
     typeof line_foc.id === "number"
       ? main_corridors.find(c => c.id === line_foc.id)
       : null;
-
-  const firstCorridor = main_corridors.find(c => c.id === firstBrtId);
 
   return (
     <div className="flex items-center gap-4 p-4 rounded-lg bg-black text-white shadow-sm">

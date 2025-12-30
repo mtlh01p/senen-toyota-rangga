@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Station, BRTCorridor, CBRTLine, StationCode } from "@/types/index";
 import StnRoundel from "@/app/components/StnRoundel";
@@ -10,56 +11,62 @@ type Props = {
 };
 
 export default function MainStnFrame({ station, line_foc }: Props) {
-  // Ordered StationCodes for StnRoundel
+  // 1️⃣ Ordered StationCodes for StnRoundel
   const orderedCodes = React.useMemo(() => {
+    // Sort by brtCorridorIds first, then any remaining codes not in brtCorridorIds
     const sortedIds = [...station.brtCorridorIds].sort((a, b) => a - b);
 
+    // Add any codes that are not in brtCorridorIds
+    const remainingCodes = station.codes
+      .map(c => c.corridorId)
+      .filter(id => !sortedIds.includes(id));
+    const finalIds = [...sortedIds, ...remainingCodes];
+
+    // Move focused line to front if exists
     if (typeof line_foc.id === "number") {
-      const focusIndex = sortedIds.indexOf(line_foc.id);
+      const focusIndex = finalIds.indexOf(line_foc.id);
       if (focusIndex !== -1) {
-        sortedIds.splice(focusIndex, 1);
-        sortedIds.unshift(line_foc.id);
+        finalIds.splice(focusIndex, 1);
+        finalIds.unshift(line_foc.id);
       }
     }
 
-    return sortedIds
+    return finalIds
       .map(id => station.codes.find(c => c.corridorId === id))
       .filter(Boolean) as StationCode[];
   }, [station.codes, station.brtCorridorIds, line_foc]);
 
-  // Ordered CorRoundels
+  // 2️⃣ Ordered CorRoundels
   const corRoundels = React.useMemo(() => {
-    // 1️⃣ BRT corridors
+    // BRT corridors
     const brtCorridors = station.brtCorridorIds
       .slice()
       .sort((a, b) => a - b)
       .map(id => main_corridors.find(c => c.id === id))
       .filter(Boolean) as BRTCorridor[];
 
-    // 2️⃣ CBRTLines
+    // CBRT lines
     const cbrtLines: CBRTLine[] = station.cbrtLineIds
       .slice()
-      .sort() // ascending string
+      .sort()
       .map(id => cbrt_lines.find(c => c.id === id))
       .filter((c): c is CBRTLine => c !== undefined);
 
     let ordered: (BRTCorridor | CBRTLine)[] = [...brtCorridors, ...cbrtLines];
 
-    // 3️⃣ Move focused line to front if found
+    // Move focused line to front if exists
     if (line_foc) {
       if (typeof line_foc.id === "number") {
-        const index = brtCorridors.findIndex(c => c.id === line_foc.id);
+        const index = ordered.findIndex(c => c.id === line_foc.id);
         if (index !== -1) {
-          const foc = brtCorridors[index];
-          const rest = ordered.filter(c => c.id !== line_foc.id);
-          ordered = [foc, ...rest];
+          const foc = ordered[index];
+          ordered = [foc, ...ordered.filter(c => c.id !== line_foc.id)];
         }
       } else {
-        const index = cbrtLines.findIndex(c => c.id === line_foc.id);
+        const index = ordered.findIndex(c => c.id === line_foc.id);
         if (index !== -1) {
-          const foc = cbrtLines[index];
-          const rest = ordered.filter(c => c.id !== line_foc.id);
-          ordered = [foc, ...rest];
+          const foc = ordered[index];
+          ordered = [foc, ...ordered.filter(c => c.id !== line_foc.id)];
         }
       }
     }
@@ -69,24 +76,26 @@ export default function MainStnFrame({ station, line_foc }: Props) {
 
   return (
     <div className="flex items-center gap-4 p-4 rounded-lg bg-black text-white shadow-sm">
-      
       {/* StationCode Roundels */}
       <div className="flex gap-3">
         {orderedCodes.map(code => {
-          const corridor = main_corridors.find(c => c.id === code.corridorId);
-          if (!corridor) return null;
+          // Try to find BRT corridor first, fallback to main_corridors if missing
+          const corridor =
+            main_corridors.find(c => c.id === code.corridorId) || null;
           return (
             <StnRoundel
               key={code.corridorId}
               stationCode={code}
-              brtCorridor={corridor}
+              brtCorridor={corridor!}
             />
           );
         })}
       </div>
 
       <div className="flex flex-col">
-        <span className="text-2xl font-semibold">{station.name}</span>
+        <span className="text-2xl font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
+          {station.name}
+        </span>
         <div className="flex gap-2 mt-1">
           {corRoundels.map(c => (
             <CorRoundel key={c.id} brtCorridor={c} />

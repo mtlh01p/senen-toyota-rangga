@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 import { BRTCorridor, StationCode } from "@/types/index";
 
 type Props = {
@@ -17,7 +17,8 @@ export default function StnRoundel({ stationCode, brtCorridor, scale }: Props) {
         {stationCode.corridorId}
       </span>
       <span className="text-2xl leading-none">
-        {stationCode.code}
+        {stationCode.code >= 10 && (stationCode.code)}
+        {stationCode.code < 10 && ("0" + stationCode.code)}
       </span>
     </div>
   );
