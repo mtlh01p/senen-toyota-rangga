@@ -87,7 +87,7 @@ export default function StationDot({
       }
 
       return rows.map((row, rowIdx) => (
-        <div key={rowIdx} className="flex justify-center items-center gap-px">
+        <div key={rowIdx} className="flex justify-center items-center -space-x-1 -space-y-1">
           {row.map(line => (
             <CorRoundel key={line.id} brtCorridor={line} scale={0.6} />
           ))}
