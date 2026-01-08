@@ -6,9 +6,9 @@ import ArrPage from "@/app/pages/arrPage";
 import MapPage from "@/app/pages/mapPage";
 
 export default function Home() {
-  const thisStn = stations.find(s => s.name === "Rawa Selatan");
-  const destStn = stations.find(s => s.name === "Rawa Buaya");
-  const line_foc = cbrt_lines.find(c => c.id === "2A");
+  const thisStn = stations.find(s => s.name === "Flyover Kuningan");
+  const destStn = stations.find(s => s.name === "CSW 1");
+  const line_foc = cbrt_lines.find(c => c.id === "L13E");
 
   if (!thisStn || !destStn || !line_foc) return <div>Loading...</div>;
 
