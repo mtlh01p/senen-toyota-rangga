@@ -42,7 +42,7 @@ export default function DestStn({ station, line_foc }: Props) {
   return (
     <div className="flex items-center gap-4 p-4 rounded-lg bg-black text-white shadow-sm">
       
-      <div className="flex items-center gap-1 text-lg font-semibold">
+      <div className="flex items-center gap-1 text-lg">
         {isFocusedBrt && focusedCode && focusedCorridor ? (
           <>
             <span>to</span>
@@ -51,7 +51,7 @@ export default function DestStn({ station, line_foc }: Props) {
               stationCode={focusedCode}
               brtCorridor={focusedCorridor}
             />
-            <span>{station.name}</span>
+            <span className="font-semibold">{station.name}</span>
           </>
         ) : (
           <>

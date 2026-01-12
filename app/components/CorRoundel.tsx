@@ -9,7 +9,7 @@ type Props = {
 export default function CorRoundel({ brtCorridor, scale }: Props) {
   return (
     <div
-      className="w-8 h-8 rounded-full font-main flex flex-col items-center justify-center text-white font-bold"
+      className="w-8 h-8 rounded-full font-main flex flex-col items-center justify-center text-white font-bold font-pt"
       style={{ backgroundColor: brtCorridor.color, transform: `scale(${scale})` }}
     >
       {typeof brtCorridor.id === "number" ? (

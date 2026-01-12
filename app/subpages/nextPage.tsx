@@ -52,7 +52,7 @@ export default function NextPage({ doorsSide, thisStn, destStn, line_foc }: Prop
             {/* BOTTOM AREA */}
               <div className="grid grid-cols-3 items-center">
                 {/* Left arrow */}
-                <div className="text-left text-8xl font-bold blink">
+                <div className="text-left ml-9 text-8xl font-bold blink">
                   {doorsSide === "right" ? "«" : "»"}
                 </div>
 
@@ -65,7 +65,7 @@ export default function NextPage({ doorsSide, thisStn, destStn, line_foc }: Prop
                 </div>
 
                 {/* Right arrow */}
-                <div className="text-right text-8xl font-bold blink">
+                <div className="text-right mr-9 text-8xl font-bold blink">
                   {doorsSide === "left" ? "»" : "«"}
                 </div>
               </div>

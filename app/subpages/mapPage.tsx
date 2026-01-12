@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { stations } from "@/lib/sample";
 import { Station, BRTCorridor, CBRTLine } from "@/types";
 import StationLine from "@/app/components/StationLine";
+import { notFound } from "next/navigation";
 
 type Props = {
   doorsSide: "left" | "right";
@@ -11,7 +12,7 @@ type Props = {
 }
 
 export default function MapPage({doorsSide, thisStn, destStn, line_foc} : Props) {
-    if (!thisStn || !destStn || !line_foc) return <div>Loading...</div>;
+    if (!thisStn || !destStn || !line_foc) return notFound();
   
     const { stationIdsDir1, stationIdsDir2 } = line_foc;
   
@@ -24,7 +25,7 @@ export default function MapPage({doorsSide, thisStn, destStn, line_foc} : Props)
     const inDir2Dest = stationIdsDir2.includes(destId);
   
     if ((!inDir1This && !inDir2This) || (!inDir1Dest && !inDir2Dest)) {
-      return <div className="p-6 text-center">Not available</div>;
+      return notFound();
     }
   
     const chosenDir = useMemo(() => {
@@ -43,7 +44,7 @@ export default function MapPage({doorsSide, thisStn, destStn, line_foc} : Props)
     const startIndex = chosenDir.indexOf(thisId);
     const destIndex = chosenDir.indexOf(destId);
   
-    if (startIndex === -1 || destIndex === -1) return <div className="p-6 text-center">Not available</div>;
+    if (startIndex === -1 || destIndex === -1) return notFound();
   
     const [pointer, setPointer] = useState(startIndex);
     const [subPage, setSubPage] = useState<"next" | "arr">("next");
@@ -54,7 +55,7 @@ export default function MapPage({doorsSide, thisStn, destStn, line_foc} : Props)
     }, [startIndex]);
   
     const currentStation = stations.find(s => s.id === chosenDir[pointer]);
-    if (!currentStation) return <div className="p-6 text-center">Not available</div>;
+    if (!currentStation) return notFound();
     return (
       <div className="flex min-h-22.5 w-full items-center justify-center font-pt">
         <StationLine
