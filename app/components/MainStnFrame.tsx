@@ -1,9 +1,10 @@
 "use client";
 import React from "react";
-import { Station, BRTCorridor, CBRTLine, StationCode } from "@/types/index";
+import { Station, BRTCorridor, CBRTLine, NBRTLine, StationCode } from "@/types/index";
 import StnRoundel from "@/app/components/StnRoundel";
 import CorRoundel from "@/app/components/CorRoundel";
-import { main_corridors, cbrt_lines } from "@/lib/sample";
+import { main_corridors, cbrt_lines, nbrt_lines } from "@/lib/sample";
+import VisibilityChecker from "@/app/components/VisibilityChecker";
 
 type Props = {
   station: Station;
@@ -52,7 +53,10 @@ export default function MainStnFrame({ station, line_foc }: Props) {
       .map(id => cbrt_lines.find(c => c.id === id))
       .filter((c): c is CBRTLine => c !== undefined);
 
-    let ordered: (BRTCorridor | CBRTLine)[] = [...brtCorridors, ...cbrtLines];
+    const nbrtLines: NBRTLine[] = station.nbrtLineIds
+    .slice().sort().map(id => nbrt_lines.find(c => c.id === id)).filter((c): c is NBRTLine => c !== undefined);
+
+    let ordered: (BRTCorridor | CBRTLine | NBRTLine)[] = [...brtCorridors, ...cbrtLines, ...nbrtLines];
 
     // Move focused line to front if exists
     if (line_foc) {
@@ -71,8 +75,8 @@ export default function MainStnFrame({ station, line_foc }: Props) {
       }
     }
 
-    return ordered;
-  }, [station.brtCorridorIds, station.cbrtLineIds, line_foc]);
+    return ordered.slice(0,15);
+  }, [station.brtCorridorIds, station.cbrtLineIds, station.nbrtLineIds, line_foc]);
 
   return (
     <div className="flex items-center gap-4 p-4 rounded-lg bg-black font-main text-white shadow-sm">
@@ -98,7 +102,7 @@ export default function MainStnFrame({ station, line_foc }: Props) {
         </span>
         <div className="flex gap-2 mt-1">
           {corRoundels.map(c => (
-            <CorRoundel key={c.id} brtCorridor={c} />
+            <CorRoundel key={c.id} brtCorridor={c} visible={VisibilityChecker({ timeType: c.time })}/>
           ))}
         </div>
       </div>

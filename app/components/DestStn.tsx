@@ -3,7 +3,7 @@ import React from "react";
 import { Station, BRTCorridor, CBRTLine } from "@/types/index";
 import StnRoundel from "@/app/components/StnRoundel";
 import CorRoundel from "@/app/components/CorRoundel";
-import { main_corridors, cbrt_lines } from "@/lib/sample";
+import { main_corridors } from "@/lib/sample";
 
 type Props = {
   station: Station;
@@ -24,10 +24,11 @@ export default function DestStn({ station, line_foc }: Props) {
 
     const firstBrtCode = firstValid
       ? station.codes.find(c => c.corridorId === firstValid)
-      : null;
+      : station.codes[0];
 
     const firstCorridor = firstValid
       ? main_corridors.find(c => c.id === firstValid)
+      : firstBrtCode != null ? main_corridors.find(c => c.id === firstBrtCode.corridorId)
       : null;
 
   const focusedCode = isFocusedBrt
@@ -64,7 +65,7 @@ export default function DestStn({ station, line_foc }: Props) {
                 brtCorridor={firstCorridor}
               />
             )}
-            <span>{station.name}</span>
+            <span className="font-semibold">{station.name}</span>
           </>
         )}
       </div>

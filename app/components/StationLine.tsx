@@ -2,8 +2,8 @@
 import React, { useMemo, useEffect, useRef } from "react";
 import StationDot from "@/app/components/StationDot";
 import LineSegment from "@/app/components/LineSegment";
-import { stations, main_corridors, cbrt_lines } from "@/lib/sample";
-import { Station, BRTCorridor, CBRTLine } from "@/types";
+import { stations, main_corridors, cbrt_lines, nbrt_lines } from "@/lib/sample";
+import { Station, BRTCorridor, CBRTLine, NBRTLine } from "@/types";
 
 type Props = {
   line_foc: BRTCorridor | CBRTLine;
@@ -20,25 +20,34 @@ export default function StationLine({ line_foc, thisStn, destStn, doorsSide }: P
 
   // Determine direction
   const chosenDir = useMemo(() => {
-    const inDir1This = stationIdsDir1.includes(thisId);
-    const inDir1Dest = stationIdsDir1.includes(destId);
-    const inDir2This = stationIdsDir2.includes(thisId);
-    const inDir2Dest = stationIdsDir2.includes(destId);
+    const idx = (dir: (number | string)[]) => ({
+      this: dir.indexOf(thisId as number | string),
+      dest: dir.indexOf(destId as number | string),
+    });
 
-    if (inDir1This && inDir1Dest && !(inDir2This && inDir2Dest)) return stationIdsDir1;
-    if (inDir2This && inDir2Dest && !(inDir1This && inDir1Dest)) return stationIdsDir2;
+    const d1 = idx(stationIdsDir1);
+    const d2 = idx(stationIdsDir2);
 
-    const idx1This = stationIdsDir1.indexOf(thisId);
-    const idx1Dest = stationIdsDir1.indexOf(destId);
-    if (idx1This !== -1 && idx1Dest !== -1 && idx1This < idx1Dest) return stationIdsDir1;
-    return stationIdsDir2;
+    const d1Valid = d1.this !== -1 && d1.dest !== -1;
+    const d2Valid = d2.this !== -1 && d2.dest !== -1;
+
+    // Only one direction contains both stations
+    if (d1Valid && !d2Valid) return stationIdsDir1;
+    if (d2Valid && !d1Valid) return stationIdsDir2;
+
+    // Both valid → choose the one where travel goes forward
+    if (d1Valid && d1.this <= d1.dest) return stationIdsDir1;
+    if (d2Valid && d2.this <= d2.dest) return stationIdsDir2;
+
+    // Fallback (terminal cases)
+    return stationIdsDir1;
   }, [stationIdsDir1, stationIdsDir2, thisId, destId]);
 
   const stationOrder = doorsSide === "right" ? [...chosenDir].reverse() : chosenDir;
 
   // Compute first & last index of each line along current route, from stations' own brtCorridorIds / cbrtLineIds
   const routeLineExtremes = useMemo(() => {
-    const extremes = new Map<number, { firstIdx: number; lastIdx: number }>();
+    const extremes = new Map<number | string, { firstIdx: number; lastIdx: number }>();
 
     stationOrder.forEach((stationId, idx) => {
       const station = stations.find(s => s.id === stationId);
@@ -47,6 +56,7 @@ export default function StationLine({ line_foc, thisStn, destStn, doorsSide }: P
       const lineIds = [
         ...(station.brtCorridorIds ?? []),
         ...(station.cbrtLineIds ?? []),
+        ...(station.nbrtLineIds ?? []),
       ].filter(id => id !== line_foc.id); // exclude the focused line
 
       lineIds.forEach(id => {
@@ -139,6 +149,7 @@ export default function StationLine({ line_foc, thisStn, destStn, doorsSide }: P
         const roundelsToShow = [
           ...(station.brtCorridorIds ?? []),
           ...(station.cbrtLineIds ?? []),
+          ...(station.nbrtLineIds ?? []),
         ]
         .filter(id => id !== line_foc.id)
         .filter(id => {
@@ -147,10 +158,10 @@ export default function StationLine({ line_foc, thisStn, destStn, doorsSide }: P
         })
         .map(id => {
           // find line object by id
-          const lineObj = main_corridors.find(l => l.id === id) || cbrt_lines.find(l => l.id === id);
+          const lineObj = main_corridors.find(l => l.id === id) || cbrt_lines.find(l => l.id === id) || nbrt_lines.find(l => l.id === id);
           return lineObj;
         })
-        .filter(Boolean) as (BRTCorridor | CBRTLine)[];
+        .filter(Boolean) as (BRTCorridor | CBRTLine | NBRTLine)[];
 
         return (
             <div key={station.id} className="flex items-end shrink-0">
@@ -168,8 +179,22 @@ export default function StationLine({ line_foc, thisStn, destStn, doorsSide }: P
                     <LineSegment
                     color={lineColor}
                     fullOpacity={
-                        idx >= Math.min(thisIndex-1, destIndexInOrder) &&
-                        idx < Math.max(thisIndex+1, destIndexInOrder)
+                      !(
+                        doorsSide === "right" &&
+                        thisId === destId &&
+                        thisIndex > 0 &&
+                        idx === thisIndex - 1
+                      ) &&
+                      !(
+                        doorsSide === "left" &&
+                        thisId === destId &&
+                        thisIndex < stationOrder.length - 1 &&
+                        idx === thisIndex
+                      ) &&
+                      (
+                        idx >= Math.min(thisIndex - 1, destIndexInOrder) &&
+                        idx < Math.max(thisIndex + 1, destIndexInOrder)
+                      )
                     }
                     width={segmentWidthNumber}
                     side={doorsSide}

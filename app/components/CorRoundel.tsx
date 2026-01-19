@@ -1,12 +1,14 @@
 import React from "react";
-import { BRTCorridor, CBRTLine } from "@/types/index";
+import { BRTCorridor, CBRTLine, NBRTLine } from "@/types/index";
 
 type Props = {
-  brtCorridor: BRTCorridor | CBRTLine;
+  brtCorridor: BRTCorridor | CBRTLine | NBRTLine;
   scale?: number;
+  visible?: boolean;
 };
 
-export default function CorRoundel({ brtCorridor, scale }: Props) {
+export default function CorRoundel({ brtCorridor, scale, visible }: Props) {
+  if (visible != null && visible == false) return null;
   return (
     <div
       className="w-8 h-8 rounded-full font-main flex flex-col items-center justify-center text-white font-bold font-pt"

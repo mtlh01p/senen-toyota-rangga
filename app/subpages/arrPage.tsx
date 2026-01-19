@@ -3,6 +3,8 @@ import MainStnFrame from "@/app/components/MainStnFrame";
 import DestStn from "@/app/components/DestStn";
 import DoorsOpen from "@/app/components/DoorsOpen";
 import { BRTCorridor, CBRTLine, Station } from "@/types";
+import VisibilityChecker from "@/app/components/VisibilityChecker";
+import { notFound } from "next/navigation";
 
 type Props = {
   doorsSide: "left" | "right";
@@ -12,6 +14,8 @@ type Props = {
 };
 
 export default function ArrPage({ doorsSide, thisStn, destStn, line_foc }: Props) {
+  if (!thisStn || !destStn || !line_foc) return notFound();
+  if (!VisibilityChecker({ timeType: line_foc.time })) return notFound();
 
   return (
     <div className="flex min-h-17.5 w-full items-center justify-center bg-zinc-50 font-sans dark:bg-black">

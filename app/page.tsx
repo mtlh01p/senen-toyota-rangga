@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { stations, main_corridors, cbrt_lines } from "@/lib/sample";
 import CorRoundel from "@/app/components/CorRoundel";
 import { BRTCorridor, CBRTLine } from "@/types";
+import VisibilityChecker from "@/app/components/VisibilityChecker";
 
 type Line = BRTCorridor | CBRTLine;
 
@@ -29,10 +30,12 @@ export default function Home() {
         {allLines.map((line) => {
           // Check if this specific line is the one selected
           const isSelected = focusedLine?.id === line.id;
+          const isVisible = VisibilityChecker({ timeType: line.time });
 
           return (
             <button
               key={line.id}
+              disabled={!isVisible}
               onClick={() => {
                 setFocusedLine(line);
                 setDirection(null);
@@ -41,6 +44,7 @@ export default function Home() {
                 setFirstStationOptions(null);
                 setLastStationOptions(null);
               }}
+              style={{ cursor: isVisible ? "pointer" : "not-allowed", opacity: isVisible ? 1 : 0.4 }}
               className={`p-1 rounded-full transition transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 isSelected 
                   ? "ring-4 ring-blue-500 ring-offset-2 dark:ring-offset-zinc-900" 

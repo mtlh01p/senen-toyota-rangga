@@ -1,40 +1,95 @@
-import { Station, BRTCorridor, CBRTLine } from "@/types/index";
+import { Station, BRTCorridor, CBRTLine, NBRTLine } from "@/types/index";
+import { Time } from "@/lib/time";
 
 export const main_corridors: BRTCorridor[] = [
-  {id: 1, color: "#d02127", stationIdsDir1: ["1-01", "1-02A", "1-03", "1-04", "1-05", "1-06", "1-07", "1-08", "1-09", "1-10", "1-11", "1-12", "1-13A", "1-14", "1-15", "1-16", "1-17", "1-18", "1-19", "1-21"], stationIdsDir2: ["1-21", "1-22", "1-20", "1-19", "1-18", "1-17", "1-16", "1-15", "1-14", "1-13B", "1-12", "1-11", "1-10", "1-09", "1-08", "1-07", "1-06", "1-05", "1-04", "1-03", "1-02B", "1-01"]},
-  {id: 2, color: "#294a99", stationIdsDir1: ["2-01", "2-02", "2-03", "2-04", "2-05", "2-06", "2-07", "2-08", "2-09", "2-10", "2-11", "2-12", "2-13", "2-14", "2-15", "2-16", "2-17", "2-18", "2-19", "1-14"], stationIdsDir2:["1-14", "2-22", "2-23", "2-24", "2-12", "2-11", "2-10", "2-09", "2-08", "2-07", "2-06", "2-05", "2-04", "2-03", "2-02", "2-01"]},
-  {id: 3, color: "#fbc71f", stationIdsDir1: ["3-01", "3-02", "3-03", "3-04", "3-05", "3-06", "3-07", "3-08", "3-09", "3-10", "3-11", "3-12", "8-23", "1-14"], stationIdsDir2:["1-14", "8-23", "3-12", "3-11", "3-10", "3-09", "3-08", "3-07", "3-06", "3-05", "3-04", "3-03", "3-02", "3-01"]},
-  {id: 4, color: "#502d5f", stationIdsDir1: ["2-01", "4-02", "4-03", "4-04", "4-05", "4-06", "4-07", "4-08", "4-09A", "4-10", "4-11", "4-12", "5-12", "5-13", "5-14", "4-14", "4-15", "4-16", "4-17"], stationIdsDir2: ["4-17", "4-16", "4-15", "4-14", "4-13", "4-12", "4-11", "4-10", "4-09B", "4-08", "4-07", "4-06", "4-05", "4-04", "4-03", "4-02", "2-01"]},
-  {id: 5, color: "#cc6128", stationIdsDir1: ["5-01", "5-02", "5-03", "5-04", "5-05", "5-06", "5-07", "5-08", "5-09", "5-10", "5-11", "5-12", "5-13", "5-14", "5-15", "5-16", "5-17", "5-18"], stationIdsDir2: ["5-18", "5-15", "5-14", "5-13", "5-12", "5-11", "5-10", "5-09", "5-08", "5-07", "5-06", "5-05", "5-04", "5-03", "5-02", "5-01"]},
-  {id: 6, color: "#2ca74a", stationIdsDir1: ["6-01", "6-02", "6-03", "6-04", "6-05", "6-06", "6-07", "6-08", "6-09", "6-10", "6-11", "6-12", "6-13", "6-14", "6-15", "6-16", "6-17", "6-18", "4-17"], stationIdsDir2:["4-17", "6-17", "6-16", "6-15", "6-14", "6-13", "6-12", "6-11", "6-10", "6-09", "6-08", "6-07", "6-06", "6-05", "6-04", "6-03", "6-02", "6-01"]},
-  {id: 7, color: "#e82860", stationIdsDir1: ["7-01", "7-02A", "7-03", "7-04", "7-05", "7-06", "7-07", "7-08", "7-09", "7-10", "7-11", "7-12", "7-13", "5-18"], stationIdsDir2:["5-18", "7-13", "7-12", "7-11", "7-10", "7-09", "7-08", "7-07", "7-06", "7-05", "7-04", "7-03", "7-02B", "7-01"]},
-  {id: 8, color: "#d73492", stationIdsDir1: ["8-01", "8-02", "8-03", "8-04", "8-05", "8-06", "8-07", "8-08", "8-09", "8-10", "8-11", "8-12", "8-13", "8-14", "8-15", "8-16", "3-09", "3-10", "8-19", "8-20A", "8-21", "8-22", "8-23", "2-19", "2-18", "3-16"], stationIdsDir2:["3-16", "2-18", "2-19", "8-23", "8-22", "8-21", "8-20B", "3-10", "3-09", "8-16", "8-15", "8-14", "8-13", "8-12", "8-11", "8-10", "8-09", "8-08", "8-07", "8-06", "8-05", "8-04", "8-03", "8-01"]},
-  {id: 9, color: "#43a09a", stationIdsDir1: ["9-01", "9-02", "7-09", "7-10", "9-05A", "9-06A", "9-07A", "9-08", "9-09A", "9-10A", "9-11", "9-12A", "9-13A", "9-14", "9-15A", "9-16", "9-17A", "9-18A", "8-20B", "8-19", "9-21", "9-22", "9-23", "9-24", "9-25", "9-26"], stationIdsDir2: ["9-26", "9-25", "9-24", "9-23", "9-22", "9-21", "8-19", "8-20A", "9-18B", "9-17B", "9-16", "9-15B", "9-14", "9-13B", "9-12B", "9-11", "9-10B", "9-09B", "9-08", "9-07B", "9-06B", "9-05B", "7-10", "7-09", "9-02", "9-01"]}, 
-  {id: 10, color: "#961f22", stationIdsDir1: ["10-01", "10-02", "10-03", "10-04A", "10-05", "10-06", "10-07", "10-08", "10-09", "10-10", "10-11", "10-12", "10-13", "10-14", "10-15", "10-16", "10-17", "10-18", "10-19", "7-09", "7-08", "10-22"], stationIdsDir2: ["10-22", "7-08", "7-09", "10-19", "10-18", "10-17", "10-16", "10-15", "10-14", "10-13", "10-12", "10-11", "10-10", "10-09", "10-08", "10-07", "10-06", "10-05", "10-04B", "10-03", "10-02", "10-01"]},
-  {id: 11, color: "#2e3192", stationIdsDir1: ["11-01", "11-02", "11-03", "11-04", "11-05", "11-06", "11-07", "11-08", "11-09", "11-10", "11-11", "11-12", "10-15", "11-14", "5-17", "5-18"], stationIdsDir2:["5-18", "11-14", "10-15", "11-12", "11-11", "11-10", "11-09", "11-08", "11-07", "11-06", "11-05", "11-04", "11-03", "11-02", "11-01"]},
-  {id: 12, color: "#77bb79", stationIdsDir1: ["9-26", "12-02", "12-03", "12-04", "1-22", "1-20", "12-07", "12-08", "5-03", "5-04", "12-11", "12-12", "12-13", "12-14", "12-15", "12-16", "10-06", "10-05", "10-04B", "10-03", "10-02", "10-01"], stationIdsDir2:["10-01", "10-02", "10-03", "10-04A", "10-05", "10-06", "12-16", "12-15", "12-14", "12-13", "12-12", "12-11", "5-04", "5-03", "12-08", "12-07", "1-21", "12-24", "9-25", "9-26"]},
-  {id: 13, color: "#783378", stationIdsDir1: ["13-01", "13-02", "13-03", "13-04", "13-05", "13-06", "13-07", "13-08", "13-09", "13-10", "13-11", "13-12", "13-15"], stationIdsDir2:["13-15", "13-14", "13-12", "13-11", "13-10", "13-09", "13-08", "13-07", "13-06", "13-05", "13-04", "13-03", "13-02", "13-01"]},
-  {id: 14, color: "#ed882e", stationIdsDir1: ["2-13", "5-07", "2-12", "14-03", "14-04", "14-05", "12-11", "12-12", "12-13", "14-09", "14-10"], stationIdsDir2: ["14-10", "14-09", "12-13", "12-12", "12-11", "14-04", "14-03", "2-12", "2-13"]},
+  {id: 1, color: "#d02127", time: Time.DayNight7, stationIdsDir1: ["1-01", "1-02A", "1-03", "1-04", "1-05", "1-06", "1-07", "1-08", "1-09", "1-10", "1-11", "1-12", "1-13A", "1-14", "1-15", "1-16", "1-17", "1-18", "1-19", "1-21"], stationIdsDir2: ["1-21", "1-22", "1-20", "1-19", "1-18", "1-17", "1-16", "1-15", "1-14", "1-13B", "1-12", "1-11", "1-10", "1-09", "1-08", "1-07", "1-06", "1-05", "1-04", "1-03", "1-02B", "1-01"]},
+  {id: 2, color: "#294a99", time: Time.DayNight7, stationIdsDir1: ["2-01", "2-02", "2-03", "2-04", "2-05", "2-06", "2-07", "2-08", "2-09", "2-10", "2-11", "2-12", "2-13", "2-14", "2-15", "2-16", "2-17", "2-18", "2-19", "1-14"], stationIdsDir2:["1-14", "2-22", "2-23", "2-24", "2-12", "2-11", "2-10", "2-09", "2-08", "2-07", "2-06", "2-05", "2-04", "2-03", "2-02", "2-01"]},
+  {id: 3, color: "#fbc71f", time: Time.DayNight7, stationIdsDir1: ["3-01", "3-02", "3-03", "3-04", "3-05", "3-06", "3-07", "3-08", "3-09", "3-10", "3-11", "3-12", "8-23", "1-14"], stationIdsDir2:["1-14", "8-23", "3-12", "3-11", "3-10", "3-09", "3-08", "3-07", "3-06", "3-05", "3-04", "3-03", "3-02", "3-01"]},
+  {id: 4, color: "#502d5f", time: Time.DayNight7, stationIdsDir1: ["2-01", "4-02", "4-03", "4-04", "4-05", "4-06", "4-07", "4-08", "4-09A", "4-10", "4-11", "4-12", "5-12", "5-13", "5-14", "4-14", "4-15", "4-16", "4-17"], stationIdsDir2: ["4-17", "4-16", "4-15", "4-14", "4-13", "4-12", "4-11", "4-10", "4-09B", "4-08", "4-07", "4-06", "4-05", "4-04", "4-03", "4-02", "2-01"]},
+  {id: 5, color: "#cc6128", time: Time.DayNight7, stationIdsDir1: ["5-01", "5-02", "5-03", "5-04", "5-05", "5-06", "5-07", "5-08", "5-09", "5-10", "5-11", "5-12", "5-13", "5-14", "5-15", "5-16", "5-17", "5-18"], stationIdsDir2: ["5-18", "5-15", "5-14", "5-13", "5-12", "5-11", "5-10", "5-09", "5-08", "5-07", "5-06", "5-05", "5-04", "5-03", "5-02", "5-01"]},
+  {id: 6, color: "#2ca74a", time: Time.DayNight7, stationIdsDir1: ["6-01", "6-02", "6-03", "6-04", "6-05", "6-06", "6-07", "6-08", "6-09", "6-10", "6-11", "6-12", "6-13", "6-14", "6-15", "6-16", "6-17", "6-18", "4-17"], stationIdsDir2:["4-17", "6-17", "6-16", "6-15", "6-14", "6-13", "6-12", "6-11", "6-10", "6-09", "6-08", "6-07", "6-06", "6-05", "6-04", "6-03", "6-02", "6-01"]},
+  {id: 7, color: "#e82860", time: Time.DayNight7, stationIdsDir1: ["7-01", "7-02A", "7-03", "7-04", "7-05", "7-06", "7-07", "7-08", "7-09", "7-10", "7-11", "7-12", "7-13", "5-18"], stationIdsDir2:["5-18", "7-13", "7-12", "7-11", "7-10", "7-09", "7-08", "7-07", "7-06", "7-05", "7-04", "7-03", "7-02B", "7-01"]},
+  {id: 8, color: "#d73492", time: Time.DayNight7, stationIdsDir1: ["8-01", "8-02", "8-03", "8-04", "8-05", "8-06", "8-07", "8-08", "8-09", "8-10", "8-11", "8-12", "8-13", "8-14", "8-15", "8-16", "3-09", "3-10", "8-19", "8-20A", "8-21", "8-22", "8-23", "2-19", "2-18", "3-16"], stationIdsDir2:["3-16", "2-18", "2-19", "8-23", "8-22", "8-21", "8-20B", "3-10", "3-09", "8-16", "8-15", "8-14", "8-13", "8-12", "8-11", "8-10", "8-09", "8-08", "8-07", "8-06", "8-05", "8-04", "8-03", "8-01"], stationIdsDir3: ["8-01", "8-02", "8-03", "8-04", "8-05", "8-06", "8-07", "8-08", "8-09", "8-10", "8-11", "8-12", "8-13", "8-14", "8-15", "8-16", "3-09", "3-10", "3-11", "3-12", "8-23", "2-19", "2-18", "3-16"], stationIdsDir4: ["3-16", "2-18", "2-19", "8-23", "3-12", "3-11", "3-10", "3-09", "8-16", "8-15", "8-14", "8-13", "8-12", "8-11", "8-10", "8-09", "8-08", "8-07", "8-06", "8-05", "8-04", "8-03", "8-01"]},
+  {id: 9, color: "#43a09a", time: Time.DayNight7, stationIdsDir1: ["9-01", "9-02", "7-09", "7-10", "9-05A", "9-06A", "9-07A", "9-08", "9-09A", "9-10A", "9-11", "9-12A", "9-13A", "9-14", "9-15A", "9-16", "9-17A", "9-18A", "8-20B", "8-19", "9-21", "9-22", "9-23", "9-24", "9-25", "9-26"], stationIdsDir2: ["9-26", "9-25", "9-24", "9-23", "9-22", "9-21", "8-19", "8-20A", "9-18B", "9-17B", "9-16", "9-15B", "9-14", "9-13B", "9-12B", "9-11", "9-10B", "9-09B", "9-08", "9-07B", "9-06B", "9-05B", "7-10", "7-09", "9-02", "9-01"]}, 
+  {id: 10, color: "#961f22", time: Time.DayNight7, stationIdsDir1: ["10-01", "10-02", "10-03", "10-04A", "10-05", "10-06", "10-07", "10-08", "10-09", "10-10", "10-11", "10-12", "10-13", "10-14", "10-15", "10-16", "10-17", "10-18", "10-19", "7-09", "7-08", "10-22"], stationIdsDir2: ["10-22", "7-08", "7-09", "10-19", "10-18", "10-17", "10-16", "10-15", "10-14", "10-13", "10-12", "10-11", "10-10", "10-09", "10-08", "10-07", "10-06", "10-05", "10-04B", "10-03", "10-02", "10-01"]},
+  {id: 11, color: "#2e3192", time: Time.DayNight7, stationIdsDir1: ["11-01", "11-02", "11-03", "11-04", "11-05", "11-06", "11-07", "11-08", "11-09", "11-10", "11-11", "11-12", "10-15", "11-14", "5-17", "5-18"], stationIdsDir2:["5-18", "11-14", "10-15", "11-12", "11-11", "11-10", "11-09", "11-08", "11-07", "11-06", "11-05", "11-04", "11-03", "11-02", "11-01"]},
+  {id: 12, color: "#77bb79", time: Time.DayNight7, stationIdsDir1: ["9-26", "12-02", "12-03", "12-04", "1-22", "1-20", "12-07", "12-08", "5-03", "5-04", "12-11", "12-12", "12-13", "12-14", "12-15", "12-16", "10-06", "10-05", "10-04B", "10-03", "10-02", "10-01"], stationIdsDir2:["10-01", "10-02", "10-03", "10-04A", "10-05", "10-06", "12-16", "12-15", "12-14", "12-13", "12-12", "12-11", "5-04", "5-03", "12-08", "12-07", "1-21", "12-24", "9-25", "9-26"]},
+  {id: 13, color: "#783378", time: Time.DayNight7, stationIdsDir1: ["13-01", "13-02", "13-03", "13-04", "13-05", "13-06", "13-07", "13-08", "13-09", "13-10", "13-11", "13-12", "13-15"], stationIdsDir2:["13-15", "13-14", "13-12", "13-11", "13-10", "13-09", "13-08", "13-07", "13-06", "13-05", "13-04", "13-03", "13-02", "13-01"]},
+  {id: 14, color: "#ed882e", time: Time.DayNight7, stationIdsDir1: ["2-13", "5-07", "2-12", "14-03", "14-04", "14-05", "12-11", "12-12", "12-13", "14-09", "14-10"], stationIdsDir2: ["14-10", "14-09", "12-13", "12-12", "12-11", "14-04", "14-03", "2-12", "2-13"]},
 ]
 
 export const cbrt_lines: CBRTLine[] = [
-  {id: "2A", color: "#50a6e4", stationIdsDir1: ["2-01", "2-02", "2-03", "2-04", "2-05", "2-06", "2-07", "2-08", "2-09", "2-10", "2-11", "2-12", "2-24", "2-22", "8-23", "3-12", "3-11", "3-10", "3-09", "3-08", "3-07", "3-06", "3-05", "3-04"], stationIdsDir2: ["3-04", "3-05", "3-06", "3-07", "3-08", "3-09", "3-10", "3-11", "3-12", "8-23", "2-22", "2-23", "2-24", "2-12", "2-11", "2-10", "2-09", "2-08", "2-07", "2-06", "2-05", "2-04", "2-03", "2-02", "2-01"]}, 
-  {id: "3F", color: "#826a20", stationIdsDir1: ["3-01", "3-02", "3-03", "3-04", "3-05", "3-06", "3-07", "3-08", "3-09", "3-10", "8-19", "8-20A", "9-18B", "9-17B", "9-16", "9-15B", "1-05"], stationIdsDir2: ["1-05", "9-15A", "9-16", "9-17A", "9-18A", "8-20B", "3-10", "3-09", "3-08", "3-07", "3-06", "3-05", "3-04", "3-03", "3-02", "3-01"]},
-  {id: "3H", color: "#e77721", stationIdsDir1: ["3-09", "3-10", "3-11", "3-12", "8-23", "1-15", "1-16", "1-17", "1-18", "1-19", "1-21"], stationIdsDir2: ["1-21", "1-22", "1-20", "1-19", "1-18", "1-17", "1-16", "1-15", "8-23", "3-12", "3-11", "3-10", "3-09"]},
-  {id: "4D", color: "#ed8fc1", stationIdsDir1: ["2-01", "4-02", "4-03", "4-04", "4-05", "4-06", "4-07", "4-08", "4-09A", "4-10", "4-11", "4-12", "5-12", "5-13", "5-14", "4-14", "4-15", "4-16", "6-17", "6-16", "6-15", "6-14", "6-13", "6-12"], stationIdsDir2: ["6-12", "6-13", "6-14", "6-15", "6-16", "6-17", "6-18", "4-15", "4-14", "4-13", "4-12", "4-11", "4-10", "4-09B", "4-08", "4-07", "4-06", "4-05", "4-04", "4-03", "4-02", "2-01"]},
-  {id: "5C", color: "#95d8c6", stationIdsDir1: ["7-07", "7-08", "7-09", "7-10", "7-11", "7-12", "7-13", "5-18", "5-15", "5-14", "5-13", "5-12", "5-11", "5-10", "5-09", "5-08", "2-24", "2-22", "1-14", "2-19", "2-18"], stationIdsDir2: ["2-18", "5-06", "5-08", "5-09", "5-10", "5-11", "5-12", "5-13", "5-14", "5-15", "5-16", "5-17", "5-18", "7-13", "7-12", "7-11", "7-10", "7-09", "7-08", "10-22", "7-07"]},
-  {id: "6A", color: "#72c18b", stationIdsDir1: ["6-01", "6-02", "6-03", "6-04", "6-05", "6-06", "6-07", "6-08", "6-09", "6-10", "6-11", "6-12", "6-13", "6-14", "6-15", "6-16", "6-17", "1-11", "1-12", "1-13A", "2-22"], stationIdsDir2: ["2-22", "1-13B", "1-12", "1-11", "6-17", "6-16", "6-15", "6-14", "6-13", "6-12", "6-11", "6-10", "6-09", "6-08", "6-07", "6-06", "6-05", "6-04", "6-03", "6-02", "6-01"]},
-  {id: "6B", color: "#90b870", stationIdsDir1: ["6-01", "6-02", "6-03", "6-04", "6-05", "6-06", "6-07", "6-08", "6-09", "6-10", "9-12A", "9-13A", "9-14", "1-08", "1-09", "1-10", "1-11", "1-12", "1-13A", "2-22"], stationIdsDir2: ["2-22", "1-13B", "1-12", "1-11", "1-10", "1-09", "1-08", "9-13B", "9-12B", "6-10", "6-09", "6-08", "6-07", "6-06", "6-05", "6-04", "6-03", "6-02", "6-01"]},
-  {id: "6V", color: "#3b907d", stationIdsDir1: ["6-01", "6-02", "6-03", "6-04", "6-05", "6-06", "6-07", "6-08", "6-09", "6-10", "13-01", "13-02", "13-03", "1-03", "1-04", "1-05"], stationIdsDir2: ["1-05", "1-04", "1-03", "1-02A", "13-03", "13-02", "13-01", "6-10", "6-09", "6-08", "6-07", "6-06", "6-05", "6-04", "6-03", "6-02", "6-01"]},
-  {id: "7F", color: "#fa2b75", stationIdsDir1: ["7-01", "7-02A", "7-03", "7-04", "7-05", "10-13", "10-12", "10-11", "10-10", "10-09", "2-06", "2-07", "2-08", "2-09", "2-10", "2-11", "2-12", "2-24", "2-22", "1-14", "2-19", "2-18"], stationIdsDir2: ["2-18", "3-16", "2-24", "2-12", "2-11", "2-10", "2-09", "2-08", "2-07", "10-10", "10-11", "10-12", "10-13", "7-05", "7-04", "7-03", "7-02B", "7-01"]},
-  {id: "9A", color: "#8fa03d", stationIdsDir1: ["7-07", "7-08", "7-09", "7-10", "9-05A", "9-06A", "9-07A", "9-08", "9-09A", "9-10A", "9-11", "9-12A", "9-13A", "9-14", "9-15A", "9-16", "9-17A", "9-18A", "8-20B", "8-19"], stationIdsDir2: ["8-19", "8-20A", "9-18B", "9-17B", "9-16", "9-15B", "9-14", "9-13B", "9-12B", "9-11", "9-10B", "9-09B", "9-08", "9-07B", "9-06B", "9-05B", "7-10", "7-09", "7-08", "10-22", "7-07"]},
-  {id: "9C", color: "#39a26b", stationIdsDir1: ["9-01", "9-02", "7-09", "7-10", "9-05A", "9-06A", "9-07A", "9-08", "9-09A", "9-10A", "9-11", "9-12A", "9-13A", "1-05", "1-04"], stationIdsDir2: ["1-04", "1-05", "9-14", "9-13B", "9-12B", "9-11", "9-10B", "9-09B", "9-08", "9-07B", "9-06B", "9-05B", "7-10", "7-09", "9-02", "9-01"]},
-  {id: "9N", color: "#783e40", stationIdsDir1: ["9-01", "9-02", "7-09", "10-19"], stationIdsDir2: ["10-19", "7-09", "9-02", "9-01"]},
-  {id: "10D", color: "#9d3237", stationIdsDir1: ["10-01", "10-02", "10-03", "10-04A", "10-05", "10-06", "10-07", "10-08", "10-09", "10-10", "10-11", "10-12", "10-13", "7-05", "7-04", "7-03", "7-02B", "7-01"], stationIdsDir2: ["7-01", "7-02A", "7-03", "7-04", "7-05", "10-13", "10-12", "10-11", "10-10", "10-09", "10-08", "10-07", "10-06", "10-05", "10-04B", "10-03", "10-02", "10-01"]},
-  {id: "10H", color: "#9c050c", stationIdsDir1: ["10-01", "5-02", "5-03", "5-04", "5-05", "2-18", "2-19", "8-23", "8-22", "8-21", "9-18B", "9-17B", "9-16", "9-15B", "1-05", "1-04"], stationIdsDir2: ["1-04", "1-05", "9-15A", "9-16", "9-17A", "9-18A", "8-21", "8-22", "8-23", "2-19", "2-18", "5-05", "5-04", "5-03", "5-02", "10-01"]},
-  {id: "13B", color: "#942087", stationIdsDir1: ["13-13", "13-14", "13-12", "13-11", "13-10", "13-09", "13-08", "13-07", "13-06", "13-05", "13-04", "13-03", "13-02", "9-09B", "9-09A"], stationIdsDir2: ["9-09A", "9-09B", "13-01", "13-02", "13-03", "13-04", "13-05", "13-06", "13-07", "13-08", "13-09", "13-10", "13-11", "13-12", "13-13"]},
-  {id: "13E", color: "#643683", stationIdsDir1: ["13-13", "13-14", "13-12", "13-11", "13-10", "13-09", "13-08", "13-07", "13-06", "13-05", "13-04", "13-03", "13-02", "9-11", "6-12", "6-13", "6-14", "6-15", "6-16", "6-17", "6-18"], stationIdsDir2: ["6-18", "6-17", "6-16", "6-15", "6-14", "6-13", "6-12", "6-11", "13-01", "13-02", "13-03", "13-04", "13-05", "13-06", "13-07", "13-08", "13-09", "13-10", "13-11", "13-12", "13-13"]},
-  {id: "L13E", color: "#643683", stationIdsDir1: ["13-13", "13-14", "13-12","13-06", "13-04", "9-11", "6-12", "6-13", "6-14", "6-15", "6-16", "6-17", "6-18"], stationIdsDir2: ["6-18", "6-17", "6-16", "6-15", "6-14", "6-13", "6-12", "6-11", "13-01", "13-04", "13-06", "13-12", "13-13"]},
+  {id: "2A", color: "#50a6e4", time: Time.Day7, stationIdsDir1: ["2-01", "2-02", "2-03", "2-04", "2-05", "2-06", "2-07", "2-08", "2-09", "2-10", "2-11", "2-12", "2-24", "2-22", "8-23", "3-12", "3-11", "3-10", "3-09", "3-08", "3-07", "3-06", "3-05", "3-04"], stationIdsDir2: ["3-04", "3-05", "3-06", "3-07", "3-08", "3-09", "3-10", "3-11", "3-12", "8-23", "2-22", "2-23", "2-24", "2-12", "2-11", "2-10", "2-09", "2-08", "2-07", "2-06", "2-05", "2-04", "2-03", "2-02", "2-01"]}, 
+  {id: "3F", color: "#826a20", time: Time.Day7, stationIdsDir1: ["3-01", "3-02", "3-03", "3-04", "3-05", "3-06", "3-07", "3-08", "3-09", "3-10", "8-19", "8-20A", "9-18B", "9-17B", "9-16", "9-15B", "1-05"], stationIdsDir2: ["1-05", "9-15A", "9-16", "9-17A", "9-18A", "8-20B", "3-10", "3-09", "3-08", "3-07", "3-06", "3-05", "3-04", "3-03", "3-02", "3-01"]},
+  {id: "3H", color: "#e77721", time: Time.Day7, stationIdsDir1: ["3-09", "3-10", "3-11", "3-12", "8-23", "1-15", "1-16", "1-17", "1-18", "1-19", "1-21"], stationIdsDir2: ["1-21", "1-22", "1-20", "1-19", "1-18", "1-17", "1-16", "1-15", "8-23", "3-12", "3-11", "3-10", "3-09"]},
+  {id: "4D", color: "#ed8fc1", time: Time.Day7, stationIdsDir1: ["2-01", "4-02", "4-03", "4-04", "4-05", "4-06", "4-07", "4-08", "4-09A", "4-10", "4-11", "4-12", "5-12", "5-13", "5-14", "4-14", "4-15", "4-16", "6-17", "6-16", "6-15", "6-14", "6-13", "6-12"], stationIdsDir2: ["6-12", "6-13", "6-14", "6-15", "6-16", "6-17", "6-18", "4-15", "4-14", "4-13", "4-12", "4-11", "4-10", "4-09B", "4-08", "4-07", "4-06", "4-05", "4-04", "4-03", "4-02", "2-01"]},
+  {id: "5C", color: "#95d8c6", time: Time.Day7, stationIdsDir1: ["7-07", "7-08", "7-09", "7-10", "7-11", "7-12", "7-13", "5-18", "5-15", "5-14", "5-13", "5-12", "5-11", "5-10", "5-09", "5-08", "2-24", "2-22", "1-14", "2-19", "2-18"], stationIdsDir2: ["2-18", "5-06", "5-08", "5-09", "5-10", "5-11", "5-12", "5-13", "5-14", "5-15", "5-16", "5-17", "5-18", "7-13", "7-12", "7-11", "7-10", "7-09", "7-08", "10-22", "7-07"]},
+  {id: "6A", color: "#72c18b", time: Time.Day7, stationIdsDir1: ["6-01", "6-02", "6-03", "6-04", "6-05", "6-06", "6-07", "6-08", "6-09", "6-10", "6-11", "6-12", "6-13", "6-14", "6-15", "6-16", "6-17", "1-11", "1-12", "1-13A", "2-22"], stationIdsDir2: ["2-22", "1-13B", "1-12", "1-11", "6-17", "6-16", "6-15", "6-14", "6-13", "6-12", "6-11", "6-10", "6-09", "6-08", "6-07", "6-06", "6-05", "6-04", "6-03", "6-02", "6-01"]},
+  {id: "6B", color: "#90b870", time: Time.Day7, stationIdsDir1: ["6-01", "6-02", "6-03", "6-04", "6-05", "6-06", "6-07", "6-08", "6-09", "6-10", "9-12A", "9-13A", "9-14", "1-08", "1-09", "1-10", "1-11", "1-12", "1-13A", "2-22"], stationIdsDir2: ["2-22", "1-13B", "1-12", "1-11", "1-10", "1-09", "1-08", "9-13B", "9-12B", "6-10", "6-09", "6-08", "6-07", "6-06", "6-05", "6-04", "6-03", "6-02", "6-01"]},
+  {id: "6V", color: "#3b907d", time: Time.Day7, stationIdsDir1: ["6-01", "6-02", "6-03", "6-04", "6-05", "6-06", "6-07", "6-08", "6-09", "6-10", "13-01", "13-02", "13-03", "1-03", "1-04", "1-05"], stationIdsDir2: ["1-05", "1-04", "1-03", "1-02A", "13-03", "13-02", "13-01", "6-10", "6-09", "6-08", "6-07", "6-06", "6-05", "6-04", "6-03", "6-02", "6-01"]},
+  {id: "7F", color: "#fa2b75", time: Time.AMPMRush7, stationIdsDir1: ["7-01", "7-02A", "7-03", "7-04", "7-05", "10-13", "10-12", "10-11", "10-10", "10-09", "2-06", "2-07", "2-08", "2-09", "2-10", "2-11", "2-12", "2-24", "2-22", "1-14", "2-19", "2-18"], stationIdsDir2: ["2-18", "3-16", "2-24", "2-12", "2-11", "2-10", "2-09", "2-08", "2-07", "10-10", "10-11", "10-12", "10-13", "7-05", "7-04", "7-03", "7-02B", "7-01"]},
+  {id: "8A", color: "#840c5c", time: Time.CFD, stationIdsDir1: ["3-10", "8-19", "8-20A", "8-21", "8-22", "2-19", "2-18", "3-16"], stationIdsDir2: ["3-16", "2-18", "2-19", "8-22", "8-21", "8-20B", "3-10"]},
+  {id: "9A", color: "#8fa03d", time: Time.Day7, stationIdsDir1: ["7-07", "7-08", "7-09", "7-10", "9-05A", "9-06A", "9-07A", "9-08", "9-09A", "9-10A", "9-11", "9-12A", "9-13A", "9-14", "9-15A", "9-16", "9-17A", "9-18A", "8-20B", "8-19"], stationIdsDir2: ["8-19", "8-20A", "9-18B", "9-17B", "9-16", "9-15B", "9-14", "9-13B", "9-12B", "9-11", "9-10B", "9-09B", "9-08", "9-07B", "9-06B", "9-05B", "7-10", "7-09", "7-08", "10-22", "7-07"]},
+  {id: "9C", color: "#39a26b", time: Time.Day7, stationIdsDir1: ["9-01", "9-02", "7-09", "7-10", "9-05A", "9-06A", "9-07A", "9-08", "9-09A", "9-10A", "9-11", "9-12A", "9-13A", "1-05", "1-04"], stationIdsDir2: ["1-04", "1-05", "9-14", "9-13B", "9-12B", "9-11", "9-10B", "9-09B", "9-08", "9-07B", "9-06B", "9-05B", "7-10", "7-09", "9-02", "9-01"]},
+  {id: "9N", color: "#783e40", time: Time.Day2, stationIdsDir1: ["9-01", "9-02", "7-09", "10-19"], stationIdsDir2: ["10-19", "7-09", "9-02", "9-01"]},
+  {id: "10D", color: "#9d3237", time: Time.AMPMRush7, stationIdsDir1: ["10-01", "10-02", "10-03", "10-04A", "10-05", "10-06", "10-07", "10-08", "10-09", "10-10", "10-11", "10-12", "10-13", "7-05", "7-04", "7-03", "7-02B", "7-01"], stationIdsDir2: ["7-01", "7-02A", "7-03", "7-04", "7-05", "10-13", "10-12", "10-11", "10-10", "10-09", "10-08", "10-07", "10-06", "10-05", "10-04B", "10-03", "10-02", "10-01"]},
+  {id: "10H", color: "#9c050c", time: Time.Day7, stationIdsDir1: ["10-01", "5-02", "5-03", "5-04", "5-05", "2-18", "2-19", "8-23", "8-22", "8-21", "9-18B", "9-17B", "9-16", "9-15B", "1-05", "1-04"], stationIdsDir2: ["1-04", "1-05", "9-15A", "9-16", "9-17A", "9-18A", "8-21", "8-22", "8-23", "2-19", "2-18", "5-05", "5-04", "5-03", "5-02", "10-01"]},
+  {id: "13B", color: "#942087", time: Time.Day7, stationIdsDir1: ["13-13", "13-14", "13-12", "13-11", "13-10", "13-09", "13-08", "13-07", "13-06", "13-05", "13-04", "13-03", "13-02", "9-09B"], stationIdsDir2: ["9-09B", "9-09A", "13-01", "13-02", "13-03", "13-04", "13-05", "13-06", "13-07", "13-08", "13-09", "13-10", "13-11", "13-12", "13-13"]},
+  {id: "13E", color: "#643683", time: Time.Day2, stationIdsDir1: ["13-13", "13-14", "13-12", "13-11", "13-10", "13-09", "13-08", "13-07", "13-06", "13-05", "13-04", "13-03", "13-02", "9-11", "6-12", "6-13", "6-14", "6-15", "6-16", "6-17", "6-18"], stationIdsDir2: ["6-18", "6-17", "6-16", "6-15", "6-14", "6-13", "6-12", "6-11", "13-01", "13-02", "13-03", "13-04", "13-05", "13-06", "13-07", "13-08", "13-09", "13-10", "13-11", "13-12", "13-13"]},
+  {id: "L13E", color: "#643683", time: Time.Day5, stationIdsDir1: ["13-13", "13-14", "13-12","13-06", "13-04", "9-11", "6-12", "6-13", "6-14", "6-15", "6-16", "6-17", "6-18"], stationIdsDir2: ["6-18", "6-17", "6-16", "6-15", "6-14", "6-13", "6-12", "6-11", "13-01", "13-04", "13-06", "13-12", "13-13"]},
+]
+
+export const nbrt_lines: NBRTLine[] = [
+  {id: "1A", color: "#90c3a4", time: Time.Day7},
+  {id: "1B", color: "#29a9a3", time: Time.Day7},
+  {id: "1C", color: "#59a9c0", time: Time.Day5},
+  {id: "1F", color: "#ff7364", time: Time.Day7},
+  {id: "1M", color: "#d62060", time: Time.Day7},
+  {id: "1Q", color: "#ff9410", time: Time.Day7},
+  {id: "1W", color: "#c05042", time: Time.Day7},
+  {id: "3D", color: "#73cbd5", time: Time.Day7},
+  {id: "3E", color: "#dbaa07", time: Time.Day7},
+  {id: "4K", color: "#883698", time: Time.Day7},
+  {id: "5B", color: "#905b3b", time: Time.Day7},
+  {id: "5N", color: "#ff4001", time: Time.Day7},
+  {id: "6C", color: "#647852", time: Time.Day7},
+  {id: "6H", color: "#75358c", time: Time.Day7},
+  {id: "6K", color: "#49904c", time: Time.Day7},
+  {id: "6M", color: "#7a3669", time: Time.Day7},
+  {id: "6N", color: "#4cb849", time: Time.Day7},
+  {id: "6U", color: "#997737", time: Time.Day7},
+  {id: "6W", color: "#608d2e", time: Time.Day7},
+  {id: "7B", color: "#bc5524", time: Time.Day7},
+  {id: "7C", color: "#558a3b", time: Time.Day7},
+  {id: "7D", color: "#52babb", time: Time.Day7},
+  {id: "7E", color: "#ed4c78", time: Time.Day7},
+  {id: "7P", color: "#901d3c", time: Time.Day7},
+  {id: "7Q", color: "#c44c2a", time: Time.Day7},
+  {id: "8D", color: "#368f95", time: Time.Day7},
+  {id: "8E", color: "#dfa1ca", time: Time.Day7},
+  {id: "8K", color: "#e96630", time: Time.Day7},
+  {id: "8M", color: "#ff61c5", time: Time.Day7},
+  {id: "8N", color: "#e64f7c", time: Time.Day7},
+  {id: "9D", color: "#58b042", time: Time.Day7},
+  {id: "9E", color: "#5699ab", time: Time.Day7},
+  {id: "11D", color: "#a5bbe0", time: Time.Day7},
+  {id: "12A", color: "#1b6031", time: Time.Day7},
+  {id: "12P", color: "#000000", time: Time.Day7},
+  {id: "14A", color: "#ba5d1a", time: Time.Day7}, 
+  {id: "14B", color: "#d2661b", time: Time.Day7}, 
+  {id: "21ST", color: "#bb5c2f", time: Time.DayNight7},
+  {id: "3C", color: "#b3a5a4", time: Time.Day7},
+  {id: "9F", color: "#b3a5a4", time: Time.Day5},  
+  {id: "11M", color: "#b3a5a4", time: Time.Day7},
+  {id: "11R", color: "#b3a5a4", time: Time.Day7},
+  {id: "12C", color: "#b3a5a4", time: Time.Day7},
+  {id: "12H", color: "#b3a5a4", time: Time.Day7},
+  {id: "B25", color: "#a9c497", time: Time.Day7},
+  {id: "B41", color: "#a9c497", time: Time.Day7},
+  {id: "D41", color: "#a9c497", time: Time.Day7},
+  {id: "P11", color: "#a9c497", time: Time.Day7},
+  {id: "S61", color: "#a9c497", time: Time.Day7},
+  {id: "T31", color: "#a9c497", time: Time.Day7},
 ]
 
 export const stations: Station[] = [
@@ -53,7 +108,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 2 }, { corridorId: 13, code: 4 }],
     brtCorridorIds: [1, 13],
     cbrtLineIds: ["6V", "13B", "13E", "L13E"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1C", "1M", "1Q", "1W", "4K", "6M", "6N", "7B", "8D", "8E", "P11", "S61", "T31", ],
     doorside: "right",
   },
   {
@@ -62,7 +117,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 2 }, { corridorId: 13, code: 4 }],
     brtCorridorIds: [1, 13],
     cbrtLineIds: ["6V", "13B", "13E", "L13E"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1C", "1M", "1Q", "1W", "4K", "6M", "6N", "7B", "8D", "8E", "P11", "S61", "T31",  ],
     doorside: "right",
   },
   {
@@ -71,7 +126,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 3 }],
     brtCorridorIds: [1],
     cbrtLineIds: ["6V"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1W", "6M", "S61", "T31", ],
     doorside: "right",
   },
   {
@@ -80,7 +135,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 4 }],
     brtCorridorIds: [1],
     cbrtLineIds: ["6V", "9C", "10H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1F", "1W", "6M", "S61", ],
     doorside: "right",
   },
   {
@@ -89,7 +144,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 5 }],
     brtCorridorIds: [1],
     cbrtLineIds: ["3F", "6V", "9C", "10H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1F", "1W", "6M", "S61", "T31", ],
     doorside: "right",
   },
   {
@@ -107,7 +162,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 7 }, { corridorId: 9, code: 14 }],
     brtCorridorIds: [1, 9],
     cbrtLineIds: ["6B", "9A", "9C"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["6M", "9D", ],
     doorside: "right",
   },
   {
@@ -116,7 +171,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 8 }],
     brtCorridorIds: [1],
     cbrtLineIds: ["6B"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1B",],
     doorside: "right",
   },
   {
@@ -125,7 +180,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 9 }, { corridorId: 4, code: 17 }, { corridorId: 6, code: 19 }],
     brtCorridorIds: [1, 4, 6],
     cbrtLineIds: ["6B"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1B", "B25", ],
     doorside: "right",
   },
   {
@@ -134,7 +189,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 10 }],
     brtCorridorIds: [1],
     cbrtLineIds: ["6B"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1B",],
     doorside: "right",
   },
   {
@@ -143,7 +198,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 11 }],
     brtCorridorIds: [1],
     cbrtLineIds: ["6A", "6B"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["9D", ],
     doorside: "right",
   },
   {
@@ -152,7 +207,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 12 }],
     brtCorridorIds: [1],
     cbrtLineIds: ["6A", "6B"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["9D", ],
     doorside: "right",
   },
   {
@@ -179,7 +234,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 14 }, { corridorId: 2, code: 21 }],
     brtCorridorIds: [1, 2, 3],
     cbrtLineIds: ["5C", "7F"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1A", "14A", ],
     doorside: "right",
   },
   {
@@ -188,7 +243,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 15 }],
     brtCorridorIds: [1],
     cbrtLineIds: ["3H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1A"],
     doorside: "right",
   },
   {
@@ -197,7 +252,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 16 }],
     brtCorridorIds: [1],
     cbrtLineIds: ["3H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1A"],
     doorside: "right",
   },
   {
@@ -206,7 +261,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 17 }],
     brtCorridorIds: [1],
     cbrtLineIds: ["3H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1A"],
     doorside: "right",
   },
   {
@@ -215,7 +270,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 18 }],
     brtCorridorIds: [1],
     cbrtLineIds: ["3H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1A"],
     doorside: "right",
   },
   {
@@ -224,7 +279,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 19 }],
     brtCorridorIds: [1],
     cbrtLineIds: ["3H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1A"],
     doorside: "right",
   },
   {
@@ -233,7 +288,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 20 }, { corridorId: 12, code: 6 }],
     brtCorridorIds: [1, 12],
     cbrtLineIds: ["3H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1A", "12A", ],
     doorside: "",
   },
   {
@@ -242,7 +297,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 21 }, { corridorId: 12, code: 23 }],
     brtCorridorIds: [1, 12],
     cbrtLineIds: ["3H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1A", "12A", "12B", ],
     doorside: "right",
   },
   {
@@ -251,7 +306,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 22 }, { corridorId: 12, code: 5 }],
     brtCorridorIds: [1, 12],
     cbrtLineIds: ["3H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1A", "12A", "12B", ],
     doorside: "left",
   },
   {
@@ -359,7 +414,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 2, code: 12 }, { corridorId: 5, code: 7 }, { corridorId: 14, code: 1 }],
     brtCorridorIds: [2, 5, 14],
     cbrtLineIds: ["2A", "7F"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["21ST", "6H", "14B", ], 
     doorside: "right",
   },
   {
@@ -395,7 +450,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 2, code: 16 }],
     brtCorridorIds: [2],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", ], 
     doorside: "left",
   },
   {
@@ -404,7 +459,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 2, code: 17 }],
     brtCorridorIds: [2],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", ], 
     doorside: "left",
   },
   {
@@ -412,8 +467,8 @@ export const stations: Station[] = [
     name: "Juanda",
     codes: [{ corridorId: 2, code: 18 }, { corridorId: 3, code: 15 }],
     brtCorridorIds: [2, 8],
-    cbrtLineIds: ["5C", "7F", "10H"],
-    nbrtLineIds: [], 
+    cbrtLineIds: ["5C", "7F", "10H", "8A"],
+    nbrtLineIds: ["14A", ], 
     doorside: "right",
   },
   {
@@ -421,8 +476,8 @@ export const stations: Station[] = [
     name: "Pecenongan",
     codes: [{ corridorId: 2, code: 19 }, { corridorId: 3, code: 14 }],
     brtCorridorIds: [2, 8],
-    cbrtLineIds: ["5C", "7F", "10H"],
-    nbrtLineIds: [], 
+    cbrtLineIds: ["5C", "7F", "10H", "8A"],
+    nbrtLineIds: ["14A", ], 
     doorside: "right",
   },
   {
@@ -431,7 +486,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 2, code: 22 }],
     brtCorridorIds: [2],
     cbrtLineIds: ["2A", "5C", "6A", "6B", "7F"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["1A", "12B", ], 
     doorside: "right",
   },
   {
@@ -485,7 +540,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 3, code: 4 }],
     brtCorridorIds: [3],
     cbrtLineIds: ["2A", "3F"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["3E", ], 
     doorside: "right",
   },
   {
@@ -494,7 +549,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 3, code: 5 }],
     brtCorridorIds: [3],
     cbrtLineIds: ["2A", "3F"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["3E", ], 
     doorside: "right",
   },
   {
@@ -521,7 +576,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 3, code: 8 }],
     brtCorridorIds: [3],
     cbrtLineIds: ["2A", "3F"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["3D", ], 
     doorside: "right",
   },
   {
@@ -538,8 +593,8 @@ export const stations: Station[] = [
     name: "Jelambar",
     codes: [{ corridorId: 3, code: 10 }, { corridorId: 8, code: 18}],
     brtCorridorIds: [3, 8],
-    cbrtLineIds: ["2A", "3F", "3H"],
-    nbrtLineIds: [], 
+    cbrtLineIds: ["2A", "3F", "3H", "8A"],
+    nbrtLineIds: ["9E", ], 
     doorside: "right",
   },
   {
@@ -547,8 +602,8 @@ export const stations: Station[] = [
     name: "Grogol",
     codes: [{ corridorId: 3, code: 11 }, { corridorId: 8, code: 19 }, { corridorId: 9, code: 20 }],
     brtCorridorIds: [3, 8, 9],
-    cbrtLineIds: ["2A", "3F", "3H", "9A"],
-    nbrtLineIds: [], 
+    cbrtLineIds: ["2A", "3F", "3H", "9A", "8A"],
+    nbrtLineIds: ["8K", "8M", ], 
     doorside: "right",
   },
   {
@@ -565,7 +620,7 @@ export const stations: Station[] = [
     name: "Pasar Baru",
     codes: [{ corridorId: 3, code: 16 }],
     brtCorridorIds: [8],
-    cbrtLineIds: ["7F"],
+    cbrtLineIds: ["7F", "8A"],
     nbrtLineIds: [], 
     doorside: "left",
   },
@@ -692,7 +747,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 4, code: 14 }],
     brtCorridorIds: [4],
     cbrtLineIds: ["4D"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6M", "B25", ], 
     doorside: "",
   },
   {
@@ -701,7 +756,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 4, code: 15 }],
     brtCorridorIds: [4],
     cbrtLineIds: ["4D"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6M", "B25", ], 
     doorside: "right",
   },
   {
@@ -710,7 +765,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 4, code: 16 }],
     brtCorridorIds: [4],
     cbrtLineIds: ["4D"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6M", "B25", ], 
     doorside: "right",
   },
   {
@@ -719,7 +774,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 4, code: 17 }, { corridorId: 1, code: 9 }, { corridorId: 6, code: 19 }],
     brtCorridorIds: [1, 4, 6],
     cbrtLineIds: ["6B"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["1B", "B25", ], 
     doorside: "",
   },
   {
@@ -728,7 +783,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 5, code: 1 }],
     brtCorridorIds: [5],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["1W", ], 
     doorside: "right",
   },
   {
@@ -746,7 +801,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 5, code: 3 }, { corridorId: 12, code: 9 }],
     brtCorridorIds: [5, 12],
     cbrtLineIds: ["10H"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["12B", ], 
     doorside: "right",
   },
   {
@@ -755,7 +810,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 5, code: 4 }, { corridorId: 12, code: 10 }],
     brtCorridorIds: [5, 12],
     cbrtLineIds: ["10H"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["12B", ], 
     doorside: "right",
   },
   {
@@ -764,7 +819,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 5, code: 5 }],
     brtCorridorIds: [5],
     cbrtLineIds: ["10H"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["12B", "14A", ], 
     doorside: "right",
   },
   {
@@ -773,7 +828,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 5, code: 6 }],
     brtCorridorIds: [5],
     cbrtLineIds: ["5C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", "12B", ], 
     doorside: "right",
   },
   {
@@ -782,7 +837,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 2, code: 12 }, { corridorId: 5, code: 7 }, { corridorId: 14, code: 1 }],
     brtCorridorIds: [2, 5, 14],
     cbrtLineIds: ["2A", "7F"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["21ST", "6H", "14B", ], 
     doorside: "right",
   },
   {
@@ -854,7 +909,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 5, code: 15 }],
     brtCorridorIds: [5],
     cbrtLineIds: ["5C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["B25", ], 
     doorside: "right",
   },
   {
@@ -863,7 +918,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 5, code: 16 }, { corridorId: 11, code: 14 }],
     brtCorridorIds: [5, 11],
     cbrtLineIds: ["5C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["5B", "11M", "B25", ], 
     doorside: "right",
   },
   {
@@ -872,7 +927,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 5, code: 17 }, { corridorId: 11, code: 15 }],
     brtCorridorIds: [5, 11],
     cbrtLineIds: ["5C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["5B", "B25", ], 
     doorside: "right",
   },
   {
@@ -881,7 +936,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 5, code: 18 }, { corridorId: 7, code: 14 }, { corridorId: 11, code: 16 }],
     brtCorridorIds: [5, 7, 11],
     cbrtLineIds: ["5C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["5B", "5N", "B25", ], 
     doorside: "",
   },
   {
@@ -890,7 +945,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 1 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["6A", "6B", "6V"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["7E", ], 
     doorside: "left",
   },
   {
@@ -899,7 +954,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 2 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["6A", "6B", "6V"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6N", "7E", ], 
     doorside: "right",
   },
   {
@@ -908,7 +963,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 3 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["6A", "6B", "6V"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", ], 
     doorside: "right",
   },
   {
@@ -917,7 +972,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 4 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["6A", "6B", "6V"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", ], 
     doorside: "right",
   },
   {
@@ -926,7 +981,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 5 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["6A", "6B", "6V"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", ], 
     doorside: "right",
   },
   {
@@ -935,7 +990,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 6 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["6A", "6B", "6V"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", "6U", ], 
     doorside: "right",
   },
   {
@@ -944,7 +999,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 7 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["6A", "6B", "6V"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", "6U", ], 
     doorside: "right",
   },
   {
@@ -953,7 +1008,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 8 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["6A", "6B", "6V"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", "6U", "6W", ], 
     doorside: "right",
   },
   {
@@ -962,7 +1017,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 9 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["6A", "6B", "6V"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["5N", "6H", "6U", "6W", "7B", ], 
     doorside: "right",
   },
   {
@@ -971,7 +1026,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 10 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["6A", "6B", "6V"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["5N", "6H", "6U", "7B", ], 
     doorside: "right",
   },
   {
@@ -980,7 +1035,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 11 }, { corridorId: 9, code: 11 }],
     brtCorridorIds: [6, 9],
     cbrtLineIds: ["6A", "9A", "9C", "13E", "L13E"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", "6M", "9D", ], 
     doorside: "right",
   },
   {
@@ -989,7 +1044,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 12 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["6A", "4D", "13E", "L13E"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", "6M", ], 
     doorside: "right",
   },
   {
@@ -998,7 +1053,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 13 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["6A", "4D", "13E", "L13E"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6C", "6H", "6K", "6M", ], 
     doorside: "right",
   },
   {
@@ -1007,7 +1062,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 14 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["6A", "4D", "13E", "L13E"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6C", "6H", "6M", ], 
     doorside: "right",
   },
   {
@@ -1016,7 +1071,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 15 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["6A", "4D", "13E", "L13E"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", "6M", ], 
     doorside: "right",
   },
   {
@@ -1025,7 +1080,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 16 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["6A", "4D", "13E", "L13E"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", "6M", ], 
     doorside: "right",
   },
   {
@@ -1034,7 +1089,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 17 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["6A", "4D", "13E", "L13E"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", "6M", ], 
     doorside: "right",
   },
   {
@@ -1043,7 +1098,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 6, code: 18 }],
     brtCorridorIds: [6],
     cbrtLineIds: ["4D", "13E", "L13E"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6M", ], 
     doorside: "left",
   },
   {
@@ -1052,7 +1107,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 7, code: 1 }],
     brtCorridorIds: [7],
     cbrtLineIds: ["7F", "10D"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["7B", ], 
     doorside: "",
   },
   {
@@ -1061,7 +1116,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 7, code: 2 }],
     brtCorridorIds: [7],
     cbrtLineIds: ["7F", "10D"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["7B", "7E", ], 
     doorside: "right",
   },
   {
@@ -1070,7 +1125,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 7, code: 2 }],
     brtCorridorIds: [7],
     cbrtLineIds: ["7F", "10D"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["7B", "7E", ], 
     doorside: "right",
   },
   {
@@ -1079,7 +1134,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 7, code: 3 }],
     brtCorridorIds: [7],
     cbrtLineIds: ["7F", "10D"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["7B", "7E", ], 
     doorside: "right",
   },
   {
@@ -1088,7 +1143,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 7, code: 4 }],
     brtCorridorIds: [7],
     cbrtLineIds: ["7F", "10D"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["7B", ], 
     doorside: "right",
   },
   {
@@ -1097,7 +1152,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 7, code: 5 }],
     brtCorridorIds: [7],
     cbrtLineIds: ["7F", "10D"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["7B", ], 
     doorside: "right",
   },
   {
@@ -1106,7 +1161,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 7, code: 6 }],
     brtCorridorIds: [7],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["7B", ], 
     doorside: "right",
   },
   {
@@ -1115,7 +1170,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 7, code: 7 }],
     brtCorridorIds: [7],
     cbrtLineIds: ["5C", "9A"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["7Q", ], 
     doorside: "right",
   },
   {
@@ -1124,7 +1179,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 7, code: 8 }, { corridorId: 10, code: 21 }],
     brtCorridorIds: [7, 10],
     cbrtLineIds: ["5C", "9A"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["7C", "7P", "7Q", ], 
     doorside: "right",
   },
   {
@@ -1133,7 +1188,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 7, code: 9 }, { corridorId: 9, code: 3 }, { corridorId: 10, code: 20 }],
     brtCorridorIds: [7, 9, 10],
     cbrtLineIds: ["5C", "9C", "9N"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["7D", "B41", ], 
     doorside: "right",
   },
   {
@@ -1142,7 +1197,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 7, code: 10 }, { corridorId: 9, code: 4 }],
     brtCorridorIds: [7, 9],
     cbrtLineIds: ["5C", "9A", "9C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["4K", "7D", ], 
     doorside: "right",
   },
   {
@@ -1160,7 +1215,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 7, code: 12 }],
     brtCorridorIds: [7],
     cbrtLineIds: ["5C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["5B", "5N", ], 
     doorside: "right",
   },
   {
@@ -1169,7 +1224,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 7, code: 13 }],
     brtCorridorIds: [7],
     cbrtLineIds: ["5C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["5B", "5N", ], 
     doorside: "right",
   },
   {
@@ -1178,7 +1233,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 8, code: 1 }],
     brtCorridorIds: [8],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", "D41", ], 
     doorside: "left",
   },
   {
@@ -1187,7 +1242,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 8, code: 2 }],
     brtCorridorIds: [8],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", "D41", ], 
     doorside: "left",
   },
   {
@@ -1214,7 +1269,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 8, code: 5 }],
     brtCorridorIds: [8],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["1Q", "8E", ], 
     doorside: "right",
   },
   {
@@ -1223,7 +1278,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 8, code: 6 }],
     brtCorridorIds: [8],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["1Q", "8E", ], 
     doorside: "right",
   },
   {
@@ -1232,7 +1287,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 8, code: 7 }, { corridorId: 13, code: 6 }],
     brtCorridorIds: [8, 13],
     cbrtLineIds: ["13B", "13E", "L13E"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["8D", "8E", "8N", "9E", ], 
     doorside: "right",
   },
   {
@@ -1259,7 +1314,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 8, code: 10 }],
     brtCorridorIds: [8],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["8D", ], 
     doorside: "right",
   },
   {
@@ -1313,7 +1368,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 8, code: 16 }],
     brtCorridorIds: [8],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["3D", ], 
     doorside: "right",
   },
   {
@@ -1321,8 +1376,8 @@ export const stations: Station[] = [
     name: "Grogol Reformasi",
     codes: [{ corridorId: 8, code: 19 }, { corridorId: 3, code: 11 }, { corridorId: 9, code: 20 }],
     brtCorridorIds: [3, 8, 9],
-    cbrtLineIds: ["2A", "3F", "3H", "9A"],
-    nbrtLineIds: [], 
+    cbrtLineIds: ["2A", "3F", "3H", "9A", "8A"],
+    nbrtLineIds: ["8K", "8M", ], 
     doorside: "right",
   },
   {
@@ -1330,8 +1385,8 @@ export const stations: Station[] = [
     name: "Tanjung Duren",
     codes: [{ corridorId: 8, code: 20 }, { corridorId: 9, code: 19 }],
     brtCorridorIds: [8, 9],
-    cbrtLineIds: ["3F", "9A"],
-    nbrtLineIds: [], 
+    cbrtLineIds: ["3F", "9A", "8A"],
+    nbrtLineIds: ["9E", ], 
     doorside: "right",
   },
   {
@@ -1339,8 +1394,8 @@ export const stations: Station[] = [
     name: "Tanjung Duren",
     codes: [{ corridorId: 8, code: 20 }, { corridorId: 9, code: 19 }],
     brtCorridorIds: [8, 9],
-    cbrtLineIds: ["3F", "9A"],
-    nbrtLineIds: [], 
+    cbrtLineIds: ["3F", "9A", "8A"],
+    nbrtLineIds: ["8M", "9E", ], 
     doorside: "right",
   },
   {
@@ -1348,7 +1403,7 @@ export const stations: Station[] = [
     name: "Tomang Raya",
     codes: [{ corridorId: 8, code: 21 }],
     brtCorridorIds: [8],
-    cbrtLineIds: ["10H"],
+    cbrtLineIds: ["10H", "8A"],
     nbrtLineIds: [], 
     doorside: "right",
   },
@@ -1357,7 +1412,7 @@ export const stations: Station[] = [
     name: "Tarakan",
     codes: [{ corridorId: 8, code: 22 }],
     brtCorridorIds: [8],
-    cbrtLineIds: ["10H"],
+    cbrtLineIds: ["10H", "8A"],
     nbrtLineIds: [], 
     doorside: "right",
   },
@@ -1394,7 +1449,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 5 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["9A", "9C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["4K", "7D", ], 
     doorside: "right",
   },
   {
@@ -1403,7 +1458,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 5 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["9A", "9C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["4K", "7D", ], 
     doorside: "right",
   },
   {
@@ -1412,7 +1467,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 6 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["9A", "9C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["4K", "7D", ], 
     doorside: "right",
   },
   {
@@ -1421,7 +1476,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 6 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["9A", "9C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["4K", "7D", ], 
     doorside: "right",
   },
   {
@@ -1430,7 +1485,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 7 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["9A", "9C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["4K", "7D", ], 
     doorside: "right",
   },
   {
@@ -1439,7 +1494,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 7 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["9A", "9C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["4K", "7D", ], 
     doorside: "right",
   },
   {
@@ -1448,7 +1503,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 8 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["9A", "9C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["4K", "7D", "P11", ], 
     doorside: "right",
   },
   {
@@ -1457,7 +1512,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 9 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["9A", "9C", "13B"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["4K", "5N", "9D", "P11", ], 
     doorside: "right",
   },
   {
@@ -1466,7 +1521,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 9 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["9A", "9C", "13B"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["4K", "5N", "9D", "P11", ], 
     doorside: "right",
   },
   {
@@ -1493,7 +1548,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 11 }, { corridorId: 6, code: 11 }],
     brtCorridorIds: [6, 9],
     cbrtLineIds: ["6A", "9A", "9C", "13E", "L13E"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6H", "6M", "9D", ], 
     doorside: "right",
   },
   {
@@ -1502,7 +1557,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 12 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["6B", "9A", "9C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6M", ], 
     doorside: "right",
   },
   {
@@ -1511,7 +1566,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 12 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["6B", "9A", "9C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6M", ], 
     doorside: "right",
   },
   {
@@ -1520,7 +1575,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 13 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["6B", "9A", "9C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6M", ], 
     doorside: "right",
   },
   {
@@ -1529,7 +1584,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 13 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["6B", "9A", "9C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["6M", ], 
     doorside: "right",
   },
   {
@@ -1538,7 +1593,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 14 }, { corridorId: 1, code: 7 }],
     brtCorridorIds: [1, 9],
     cbrtLineIds: ["6B", "9A", "9C"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["6M", "9D", ],
     doorside: "right",
   },
   {
@@ -1547,7 +1602,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 15 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["3F", "9A", "10H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1B", "1F", "1W", "S61", "T31", ],
     doorside: "right",
   },
   {
@@ -1556,7 +1611,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 15 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["3F", "9A", "10H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1B", "1F", "1W", "S61", "T31", ],
     doorside: "right",
   },
   {
@@ -1565,7 +1620,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 16 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["3F", "9A", "10H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1W", "8N", "9E", "S61", "T31", ],
     doorside: "right",
   },
   {
@@ -1574,7 +1629,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 17 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["3F", "9A", "10H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["9E", "S61", ],
     doorside: "right",
   },
   {
@@ -1583,7 +1638,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 17 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["3F", "9A", "10H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1W", "9E", "S61", "T31", ],
     doorside: "right",
   },
   {
@@ -1592,7 +1647,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 18 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["3F", "9A", "10H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["9E", "S61", ],
     doorside: "right",
   },
   {
@@ -1601,7 +1656,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 18 }],
     brtCorridorIds: [9],
     cbrtLineIds: ["3F", "9A", "10H"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["9E", "S61", ],
     doorside: "right",
   },
   {
@@ -1610,7 +1665,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 21 }],
     brtCorridorIds: [9],
     cbrtLineIds: [],
-    nbrtLineIds: [],
+    nbrtLineIds: ["9F", ],
     doorside: "right",
   },
   {
@@ -1619,7 +1674,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 22 }],
     brtCorridorIds: [9],
     cbrtLineIds: [],
-    nbrtLineIds: [],
+    nbrtLineIds: ["9F", ],
     doorside: "right",
   },
   {
@@ -1628,7 +1683,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 23 }],
     brtCorridorIds: [9],
     cbrtLineIds: [],
-    nbrtLineIds: [],
+    nbrtLineIds: ["9F", ],
     doorside: "right",
   },
   {
@@ -1637,7 +1692,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 24 }],
     brtCorridorIds: [9],
     cbrtLineIds: [],
-    nbrtLineIds: [],
+    nbrtLineIds: ["9F", ],
     doorside: "right",
   },
   {
@@ -1646,7 +1701,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 25 }, { corridorId: 12, code: 25 }],
     brtCorridorIds: [9, 12],
     cbrtLineIds: [],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1A", "3D", "12A", "3C", "9F", "12C", "12H", ],
     doorside: "right",
   },
   {
@@ -1655,7 +1710,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 9, code: 26 }, { corridorId: 12, code: 1 }],
     brtCorridorIds: [9, 12],
     cbrtLineIds: [],
-    nbrtLineIds: [],
+    nbrtLineIds: ["9F", ],
     doorside: "",
   },
   {
@@ -1718,7 +1773,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 10, code: 6 }, { corridorId: 12, code: 17 }],
     brtCorridorIds: [10, 12],
     cbrtLineIds: ["10D"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["12P", ], 
     doorside: "right",
   },
   {
@@ -1799,7 +1854,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 10, code: 15 }, { corridorId: 11, code: 13 }],
     brtCorridorIds: [10, 11],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["4K", "11M", "B25", ], 
     doorside: "right",
   },
   {
@@ -1808,7 +1863,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 10, code: 16 }],
     brtCorridorIds: [10],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["4K", "B25", ], 
     doorside: "right",
   },
   {
@@ -1835,7 +1890,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 10, code: 19 }],
     brtCorridorIds: [10],
     cbrtLineIds: ["9N"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["7P", ], 
     doorside: "right",
   },
   {
@@ -1845,7 +1900,7 @@ export const stations: Station[] = [
     brtCorridorIds: [10],
     cbrtLineIds: [],
     nbrtLineIds: [], 
-    doorside: "",
+    doorside: "left",
   },
   {
     id: "11-01", 
@@ -1853,7 +1908,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 11, code: 1 }],
     brtCorridorIds: [11],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["11D", ], 
     doorside: "left",
   },
   {
@@ -1862,7 +1917,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 11, code: 2 }],
     brtCorridorIds: [11],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["11D", "11M", "11R", ], 
     doorside: "right",
   },
   {
@@ -1871,7 +1926,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 11, code: 3 }],
     brtCorridorIds: [11],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["11D", "11M", "11R", ], 
     doorside: "right",
   },
   {
@@ -1880,7 +1935,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 11, code: 4 }],
     brtCorridorIds: [11],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["11M", ], 
     doorside: "right",
   },
   {
@@ -1889,7 +1944,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 11, code: 5 }],
     brtCorridorIds: [11],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["11M", ], 
     doorside: "right",
   },
   {
@@ -1898,7 +1953,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 11, code: 6 }],
     brtCorridorIds: [11],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["11M", ], 
     doorside: "right",
   },
   {
@@ -1907,7 +1962,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 11, code: 7 }],
     brtCorridorIds: [11],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["11M", ], 
     doorside: "right",
   },
   {
@@ -1916,7 +1971,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 11, code: 8 }],
     brtCorridorIds: [11],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["11M", ], 
     doorside: "right",
   },
   {
@@ -1925,7 +1980,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 11, code: 9 }],
     brtCorridorIds: [11],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["11M", ], 
     doorside: "right",
   },
   {
@@ -1934,7 +1989,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 11, code: 10 }],
     brtCorridorIds: [11],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["11M", ], 
     doorside: "right",
   },
   {
@@ -1943,7 +1998,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 11, code: 11 }],
     brtCorridorIds: [11],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["11M", ], 
     doorside: "right",
   },
   {
@@ -1952,7 +2007,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 11, code: 12 }],
     brtCorridorIds: [11],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["11M", ], 
     doorside: "right",
   },
   {
@@ -1961,7 +2016,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 11, code: 14 }, { corridorId: 5, code: 16 }],
     brtCorridorIds: [11, 5],
     cbrtLineIds: ["5C"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["5B", "11M", "B25", ], 
     doorside: "right",
   },
   {
@@ -1970,7 +2025,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 12, code: 2 }],
     brtCorridorIds: [12],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["1A", "12A", "12B", "12C", ], 
     doorside: "right",
   },
   {
@@ -1979,7 +2034,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 12, code: 3 }],
     brtCorridorIds: [12],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["1A", "12A", "12B", "12C", ], 
     doorside: "right",
   },
   {
@@ -1988,7 +2043,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 12, code: 4 }],
     brtCorridorIds: [12],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["1A", "12A", "12B", "12C", ], 
     doorside: "right",
   },
   {
@@ -1997,7 +2052,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 12, code: 7 }],
     brtCorridorIds: [12],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["12B", ], 
     doorside: "right",
   },
   {
@@ -2006,7 +2061,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 12, code: 8 }],
     brtCorridorIds: [12],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["12B", ], 
     doorside: "right",
   },
   {
@@ -2015,7 +2070,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 12, code: 11 }, { corridorId: 14, code: 6 }],
     brtCorridorIds: [12, 14],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["14A", ], 
     doorside: "right",
   },
   {
@@ -2024,7 +2079,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 12, code: 12 }, { corridorId: 14, code: 7 }],
     brtCorridorIds: [12, 14],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["14A", ], 
     doorside: "right",
   },
   {
@@ -2033,7 +2088,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 12, code: 13 }, { corridorId: 14, code: 8 }],
     brtCorridorIds: [12, 14],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["14A", "14B", ], 
     doorside: "right",
   },
   {
@@ -2042,7 +2097,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 12, code: 14 }],
     brtCorridorIds: [12],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["12P", ], 
     doorside: "right",
   },
   {
@@ -2051,7 +2106,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 12, code: 15 }],
     brtCorridorIds: [12],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["12P", ], 
     doorside: "right",
   },
   {
@@ -2069,7 +2124,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 12, code: 24 }],
     brtCorridorIds: [12],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["1A", "3D", "12A", "12B", "12C", ], 
     doorside: "right",
   },
   {
@@ -2078,7 +2133,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 13, code: 1 }],
     brtCorridorIds: [13],
     cbrtLineIds: ["13B", "13E", "L13E", "6V"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["4K", "5N", "6U", "7B", "P11", ], 
     doorside: "right",
   },
   {
@@ -2087,7 +2142,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 13, code: 2 }],
     brtCorridorIds: [13],
     cbrtLineIds: ["13B", "13E", "6V"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["4K", "7B", "P11", ], 
     doorside: "right",
   },
   {
@@ -2096,7 +2151,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 13, code: 3 }],
     brtCorridorIds: [13],
     cbrtLineIds: ["13B", "13E", "6V"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["4K", "7B", "P11", ], 
     doorside: "right",
   },
   {
@@ -2105,7 +2160,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 1, code: 2 }, { corridorId: 13, code: 4 }],
     brtCorridorIds: [1, 13],
     cbrtLineIds: ["6V", "13B", "13E", "L13E"],
-    nbrtLineIds: [],
+    nbrtLineIds: ["1C", "1M", "1Q", "1W", "4K", "6M", "6N", "7B", "8D", "8E", "P11", "S61", "T31", ],
     doorside: "right",
   },
   {
@@ -2123,7 +2178,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 8, code: 7 }, { corridorId: 13, code: 6 }],
     brtCorridorIds: [8, 13],
     cbrtLineIds: ["13B", "13E", "L13E"],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["8D", "8E", "8N", "9E", ], 
     doorside: "right",
   },
   {
@@ -2213,7 +2268,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 14, code: 3 }],
     brtCorridorIds: [14],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["14B", ], 
     doorside: "right",
   },
   {
@@ -2222,7 +2277,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 14, code: 4 }],
     brtCorridorIds: [14],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["14B", ], 
     doorside: "right",
   },
   {
@@ -2231,7 +2286,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 14, code: 5 }],
     brtCorridorIds: [14],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["1W", ], 
     doorside: "left",
   },
   {
@@ -2240,7 +2295,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 14, code: 9 }],
     brtCorridorIds: [14],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["14A", "14B", ], 
     doorside: "right",
   },
   {
@@ -2249,7 +2304,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 14, code: 10 }],
     brtCorridorIds: [14],
     cbrtLineIds: [],
-    nbrtLineIds: [], 
+    nbrtLineIds: ["12P", "14A", ], 
     doorside: "left",
   },
 ];

@@ -3,6 +3,7 @@ import { stations } from "@/lib/sample";
 import { Station, BRTCorridor, CBRTLine } from "@/types";
 import StationLine from "@/app/components/StationLine";
 import { notFound } from "next/navigation";
+import VisibilityChecker from "@/app/components/VisibilityChecker";
 
 type Props = {
   doorsSide: "left" | "right";
@@ -13,6 +14,7 @@ type Props = {
 
 export default function MapPage({doorsSide, thisStn, destStn, line_foc} : Props) {
     if (!thisStn || !destStn || !line_foc) return notFound();
+    if (!VisibilityChecker({ timeType: line_foc.time })) return notFound();
   
     const { stationIdsDir1, stationIdsDir2 } = line_foc;
   
@@ -34,8 +36,6 @@ export default function MapPage({doorsSide, thisStn, destStn, line_foc} : Props)
   
       const idx1This = stationIdsDir1.indexOf(thisId);
       const idx1Dest = stationIdsDir1.indexOf(destId);
-      const idx2This = stationIdsDir2.indexOf(thisId);
-      const idx2Dest = stationIdsDir2.indexOf(destId);
   
       if (idx1This !== -1 && idx1Dest !== -1 && idx1This < idx1Dest) return stationIdsDir1;
       return stationIdsDir2;
