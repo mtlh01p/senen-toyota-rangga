@@ -14,9 +14,9 @@ export default function CorRoundel({ brtCorridor, scale, visible }: Props) {
       className="w-8 h-8 rounded-full font-main flex flex-col items-center justify-center text-white font-bold font-pt"
       style={{ backgroundColor: brtCorridor.color, transform: `scale(${scale})` }}
     >
-      {brtCorridor.lineType === "BRTCorridor" ? (
+      {typeof brtCorridor.id === "number" ? (
         <span className="text-lg leading-none -mb-0.1">
-          {brtCorridor.mainBRTC}
+          {brtCorridor.id}
           </span>
           ) : (<span className="text-sm leading-none -mb-0.1">
             {brtCorridor.id}

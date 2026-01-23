@@ -3,7 +3,7 @@ import React, { useMemo, useEffect, useRef } from "react";
 import StationDot from "@/app/components/StationDot";
 import LineSegment from "@/app/components/LineSegment";
 import { stations, main_corridors, cbrt_lines, nbrt_lines } from "@/lib/sample";
-import { Station, BRTCorridor, CBRTLine } from "@/types";
+import { Station, BRTCorridor, CBRTLine, NBRTLine } from "@/types";
 
 type Props = {
   line_foc: BRTCorridor | CBRTLine;
@@ -47,27 +47,23 @@ export default function StationLine({ line_foc, thisStn, destStn, doorsSide }: P
 
   // Compute first & last index of each line along current route, from stations' own brtCorridorIds / cbrtLineIds
   const routeLineExtremes = useMemo(() => {
-    const extremes = new Map<string, { firstIdx: number; lastIdx: number }>();
-    const focId = String(line_foc.id);
+    const extremes = new Map<number | string, { firstIdx: number; lastIdx: number }>();
 
     stationOrder.forEach((stationId, idx) => {
-      const station = stations.find(s => String(s.id) === String(stationId));
+      const station = stations.find(s => s.id === stationId);
       if (!station) return;
 
       const lineIds = [
         ...(station.brtCorridorIds ?? []),
         ...(station.cbrtLineIds ?? []),
         ...(station.nbrtLineIds ?? []),
-      ]
-        .map(String)
-        .filter(id => id !== focId);
+      ].filter(id => id !== line_foc.id); // exclude the focused line
 
       lineIds.forEach(id => {
-        const ex = extremes.get(id);
-        if (!ex) {
+        if (!extremes.has(id)) {
           extremes.set(id, { firstIdx: idx, lastIdx: idx });
         } else {
-          ex.lastIdx = idx;
+          extremes.get(id)!.lastIdx = idx;
         }
       });
     });
@@ -77,7 +73,7 @@ export default function StationLine({ line_foc, thisStn, destStn, doorsSide }: P
 
   // Determine color of line_foc
   const lineColor = "id" in line_foc
-    ? line_foc.lineType === "BRTCorridor"
+    ? typeof line_foc.id === "number"
       ? main_corridors.find(c => c.id === line_foc.id)?.color || "#fff"
       : cbrt_lines.find(c => c.id === line_foc.id)?.color || "#fff"
     : "#fff";
@@ -149,71 +145,28 @@ export default function StationLine({ line_foc, thisStn, destStn, doorsSide }: P
         const reached = doorsSide === "right" ? idx > thisIndex : idx < thisIndex;
         const willReach = doorsSide === "right" ? idx < destIndexInOrder : idx > destIndexInOrder;
 
-        const linePriority = {
-          BRTCorridor: 0,
-          CBRTLine: 1,
-          NBRTLine: 2,
-        } as const;
-
         // Determine roundels to show: first or last station for each line along route
         const roundelsToShow = [
           ...(station.brtCorridorIds ?? []),
           ...(station.cbrtLineIds ?? []),
           ...(station.nbrtLineIds ?? []),
         ]
-          .map(String)
-          .filter(id => id !== String(line_foc.id))
-          .filter(id => {
-            const ex = routeLineExtremes.get(id);
-            return ex && (idx === ex.firstIdx || idx === ex.lastIdx);
-          })
-          .filter(id => {
-            const line =
-              main_corridors.find(l => String(l.id) === id) ||
-              cbrt_lines.find(l => String(l.id) === id) ||
-              nbrt_lines.find(l => String(l.id) === id);
-
-            return !(
-              line?.lineType === "BRTCorridor" &&
-              line_foc.lineType === "BRTCorridor" &&
-              line.mainBRTC === line_foc.mainBRTC
-            );
-          })
-          .map(id =>
-            main_corridors.find(l => String(l.id) === id) ||
-            cbrt_lines.find(l => String(l.id) === id) ||
-            nbrt_lines.find(l => String(l.id) === id)
-          )
-          .filter(Boolean)
-          .filter((line, _, arr) => {
-            if (line.lineType !== "BRTCorridor") return true;
-
-            return (
-              arr.findIndex(
-                l =>
-                  l.lineType === "BRTCorridor" &&
-                  l.mainBRTC === line.mainBRTC
-              ) === arr.indexOf(line)
-            );
-          })
-          .sort((a, b) => {
-            const typeDiff =
-              linePriority[a!.lineType as keyof typeof linePriority] -
-              linePriority[b!.lineType as keyof typeof linePriority];
-            if (typeDiff !== 0) return typeDiff;
-
-            const brtcDiff = Number(a!.mainBRTC) - Number(b!.mainBRTC);
-            if (brtcDiff !== 0) return brtcDiff;
-
-            // final tie-breaker
-            return Number(a!.id) - Number(b!.id);
-          })
+        .filter(id => id !== line_foc.id)
+        .filter(id => {
+          const ex = routeLineExtremes.get(id);
+          return ex && (idx === ex.firstIdx || idx === ex.lastIdx);
+        })
+        .map(id => {
+          // find line object by id
+          const lineObj = main_corridors.find(l => l.id === id) || cbrt_lines.find(l => l.id === id) || nbrt_lines.find(l => l.id === id);
+          return lineObj;
+        })
+        .filter(Boolean) as (BRTCorridor | CBRTLine | NBRTLine)[];
 
         return (
             <div key={station.id} className="flex items-end shrink-0">
             <StationDot
               name={station.name}
-              accessible={station.accessible}
               reached={reached}
               willReach={willReach}
               side={doorsSide}

@@ -11,63 +11,43 @@ type Props = {
 };
 
 export default function DestStn({ station, line_foc }: Props) {
-  const isBrtFocused = line_foc.lineType === "BRTCorridor";
+  const isFocusedBrt =
+    typeof line_foc.id === "number" &&
+    station.brtCorridorIds.includes(line_foc.id);
 
-  /* -------------------------------------------------
-     1) Sort BRT corridor IDs by mainBRTC → then string
-  --------------------------------------------------*/
-  const sortedBrtIds = [...station.brtCorridorIds].sort((a, b) => {
-    const aMain = main_corridors.find(c => c.id === a)?.mainBRTC ?? Infinity;
-    const bMain = main_corridors.find(c => c.id === b)?.mainBRTC ?? Infinity;
+    const sortedBrtIds = [...station.brtCorridorIds].sort((a, b) => a - b);
 
-    if (aMain !== bMain) return aMain - bMain;
-    return String(a).localeCompare(String(b));
-  });
+    const firstValid = sortedBrtIds.find(id =>
+      station.codes.some(c => c.corridorId === id) &&
+      main_corridors.some(c => c.id === id)
+    );
 
-  /* -------------------------------------------------
-     2) Focused station code (special BRT logic)
-  --------------------------------------------------*/
+    const firstBrtCode = firstValid
+      ? station.codes.find(c => c.corridorId === firstValid)
+      : station.codes[0];
 
-    const focusedMainBRTC =
-      "mainBRTC" in line_foc ? line_foc.mainBRTC : null;
+    const firstCorridor = firstValid
+      ? main_corridors.find(c => c.id === firstValid)
+      : firstBrtCode != null ? main_corridors.find(c => c.id === firstBrtCode.corridorId)
+      : null;
 
-    const focusedCode =
-      focusedMainBRTC != null
-        ? station.codes.find(c => c.corridorId === focusedMainBRTC)
-        : null;
+  const focusedCode = isFocusedBrt
+    ? station.codes.find(c => c.corridorId === line_foc.id)
+    : null;
 
-    const focusedCorridor =
-      focusedMainBRTC != null
-        ? main_corridors.find(c => c.mainBRTC === focusedMainBRTC)
-        : null;
-
-  /* -------------------------------------------------
-     3) Fallback: first valid BRT corridor
-  --------------------------------------------------*/
-  const firstValidBrtId = sortedBrtIds.find(id =>
-    main_corridors.some(c => c.id === id)
-  );
-
-  const fallbackCode =
-    station.codes.find(c => c.corridorId ===
-      main_corridors.find(mc => mc.id === firstValidBrtId)?.mainBRTC
-    ) ?? station.codes[0];
-
-  const fallbackCorridor =
-    main_corridors.find(c => c.mainBRTC === fallbackCode?.corridorId) ?? null;
-
-  const showFocused = focusedCode && focusedCorridor;
+  const focusedCorridor =
+    typeof line_foc.id === "number"
+      ? main_corridors.find(c => c.id === line_foc.id)
+      : null;
 
   return (
     <div className="flex items-center gap-4 p-4 rounded-lg bg-black text-white shadow-sm">
+      
       <div className="flex items-center gap-1 text-lg">
-        {showFocused ? (
+        {isFocusedBrt && focusedCode && focusedCorridor ? (
           <>
-            {line_foc.lineType === "CBRTLine" && (
-              <CorRoundel brtCorridor={line_foc} scale={1} />
-            )}
             <span>to</span>
-            <StnRoundel
+            <StnRoundel 
               scale={0.65}
               stationCode={focusedCode}
               brtCorridor={focusedCorridor}
@@ -78,17 +58,18 @@ export default function DestStn({ station, line_foc }: Props) {
           <>
             <CorRoundel brtCorridor={line_foc} scale={1} />
             <span>to</span>
-            {fallbackCode && fallbackCorridor && (
+            {firstBrtCode && firstCorridor && (
               <StnRoundel
                 scale={0.65}
-                stationCode={fallbackCode}
-                brtCorridor={fallbackCorridor}
+                stationCode={firstBrtCode}
+                brtCorridor={firstCorridor}
               />
             )}
             <span className="font-semibold">{station.name}</span>
           </>
         )}
       </div>
+
     </div>
   );
 }
