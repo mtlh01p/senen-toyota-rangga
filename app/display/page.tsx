@@ -15,15 +15,18 @@ type Props = {
 };
 
 export default function Display({searchParams}: Props) {
-  if(!searchParams) return notFound();
 
   const { startStn, endStn, curLine } = use(searchParams);
+  
+  // Validate all required parameters early
   if (!startStn || !endStn || !curLine) return notFound();
 
   const thisStn = stations.find(s => s.id === startStn);
   const destStn = stations.find(s => s.id === endStn);
   const line_foc = [...main_corridors, ...cbrt_lines].find(l => l.id.toString() === curLine);
+  
   if (!thisStn || !destStn || !line_foc) return notFound();
+  if(!searchParams) return notFound();
 
   const { stationIdsDir1, stationIdsDir2 } = line_foc;
   const thisId = thisStn.id;
@@ -35,9 +38,10 @@ export default function Display({searchParams}: Props) {
   const inDir2Dest = stationIdsDir2.includes(destId);
 
   if ((!inDir1This && !inDir2This) || (!inDir1Dest && !inDir2Dest)) {
-    return notFound
+    return notFound();
   }
 
+  // Now all hooks can be called unconditionally
   const chosenDir = useMemo(() => {
     if (inDir1This && inDir1Dest && !(inDir2This && inDir2Dest)) return stationIdsDir1;
     if (inDir2This && inDir2Dest && !(inDir1This && inDir1Dest)) return stationIdsDir2;
@@ -52,7 +56,7 @@ export default function Display({searchParams}: Props) {
   const startIndex = chosenDir.indexOf(thisId);
   const destIndex = chosenDir.indexOf(destId);
 
-  if (startIndex === -1 || destIndex === -1) return notFound
+  if (startIndex === -1 || destIndex === -1) return notFound();
 
   const [pointer, setPointer] = useState(startIndex);
   const [subPage, setSubPage] = useState<"next" | "map" | "arr">("next");
@@ -72,7 +76,7 @@ export default function Display({searchParams}: Props) {
   }, [subPage, pointer]);
 
   const currentStation = stations.find(s => s.id === chosenDir[pointer]);
-  if (!currentStation) return notFound
+  if (!currentStation) return notFound();
 
   /** HANDLERS */
   const handleNext = () => {

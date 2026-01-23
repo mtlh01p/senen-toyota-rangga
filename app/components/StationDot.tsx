@@ -13,6 +13,7 @@ type Props = {
   focused: boolean;
   side: "left" | "right";
   roundels: (BRTCorridor | CBRTLine | NBRTLine)[];
+  accessible?: boolean | null;
 };
 
 
@@ -23,11 +24,13 @@ export default function StationDot({
   side,
   oneWay,
   focused,
+  accessible,
   roundels,
 }: Props) {
   const opacity = reached || willReach ? 0.3 : 1;
   const shape = oneWay ? (side === "right" ? "◀" : "▶") : "●";
   const angle = side === "right" ? -60 : 60;
+  const isAccessible = accessible ?? false;
 
   return (
     <div className="relative flex flex-col items-center w-4 shrink-0 font-sans">
@@ -50,7 +53,7 @@ export default function StationDot({
             opacity,
           }}
         >
-          {name}
+      {side === "right" && isAccessible ? "♿" : ""} {name} {side === "left" && isAccessible ? "♿" : ""}
         </span>
 
       {/* Dot (ANCHOR) */}
