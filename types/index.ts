@@ -8,12 +8,14 @@ export type Station = {
   cbrtLineIds: string[];
   nbrtLineIds: string[];
   doorside: string;
+  accessible?: boolean;
 };
 
 export type BRTCorridor = {
   id: number;
   color: string;
   time: Time;
+  mainBRTC: number;
   stationIdsDir1: string[];
   stationIdsDir2: string[];
   stationIdsDir3?: string[];
@@ -24,6 +26,7 @@ export type CBRTLine = {
   id: string;
   color: string;
   time: Time;
+  mainBRTC: number;
   stationIdsDir1: string[];
   stationIdsDir2: string[];
 };
@@ -32,6 +35,7 @@ export type NBRTLine = {
   id: string;
   color: string;
   time: Time;
+  mainBRTC: number;
 };
 
 export type StationCode = {

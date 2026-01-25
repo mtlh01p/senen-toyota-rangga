@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Station, BRTCorridor, CBRTLine } from "@/types/index";
+import { Station, BRTCorridor, CBRTLine, StationCode } from "@/types/index";
 import StnRoundel from "@/app/components/StnRoundel";
 import CorRoundel from "@/app/components/CorRoundel";
 import { main_corridors } from "@/lib/sample";
@@ -11,58 +11,56 @@ type Props = {
 };
 
 export default function DestStn({ station, line_foc }: Props) {
-  const isFocusedBrt =
-    typeof line_foc.id === "number" &&
-    station.brtCorridorIds.includes(line_foc.id);
+  const orderedCodes = React.useMemo(() => {
+    // Sort by brtCorridorIds first, then any remaining codes not in brtCorridorIds
+    const sortedIds = [...station.brtCorridorIds].sort((a, b) => a - b);
 
-    const sortedBrtIds = [...station.brtCorridorIds].sort((a, b) => a - b);
+    // Add any codes that are not in brtCorridorIds
+    const remainingCodes = station.codes
+      .map(c => c.corridorId)
+      .filter(id => !sortedIds.includes(id));
+    const finalIds = [...sortedIds, ...remainingCodes];
 
-    const firstValid = sortedBrtIds.find(id =>
-      station.codes.some(c => c.corridorId === id) &&
-      main_corridors.some(c => c.id === id)
-    );
+    // Move focused line to front if exists
+      const focusIndex = finalIds.indexOf(line_foc.mainBRTC);
+      if (focusIndex !== -1) {
+        finalIds.splice(focusIndex, 1);
+        finalIds.unshift(line_foc.mainBRTC);
+      }
 
-    const firstBrtCode = firstValid
-      ? station.codes.find(c => c.corridorId === firstValid)
-      : station.codes[0];
-
-    const firstCorridor = firstValid
-      ? main_corridors.find(c => c.id === firstValid)
-      : firstBrtCode != null ? main_corridors.find(c => c.id === firstBrtCode.corridorId)
-      : null;
-
-  const focusedCode = isFocusedBrt
-    ? station.codes.find(c => c.corridorId === line_foc.id)
-    : null;
-
-  const focusedCorridor =
-    typeof line_foc.id === "number"
-      ? main_corridors.find(c => c.id === line_foc.id)
-      : null;
+    return finalIds
+      .map(id => station.codes.find(c => c.corridorId === id))
+      .filter(Boolean) as StationCode[];
+  }, [station.codes, station.brtCorridorIds, line_foc]);
+  const focusedCode = orderedCodes[0];
+  const focusedCorridor = main_corridors.find(c => c.mainBRTC === focusedCode.corridorId);
+  const corridorMatch = focusedCorridor === line_foc;
 
   return (
     <div className="flex items-center gap-4 p-4 rounded-lg bg-black text-white shadow-sm">
       
       <div className="flex items-center gap-1 text-lg">
-        {isFocusedBrt && focusedCode && focusedCorridor ? (
+        {corridorMatch ? (
           <>
             <span>to</span>
-            <StnRoundel 
-              scale={0.65}
-              stationCode={focusedCode}
-              brtCorridor={focusedCorridor}
-            />
+            {focusedCorridor && (
+              <StnRoundel 
+                scale={0.65}
+                stationCode={focusedCode}
+                brtCorridor={focusedCorridor}
+              />
+            )}
             <span className="font-semibold">{station.name}</span>
           </>
         ) : (
           <>
             <CorRoundel brtCorridor={line_foc} scale={1} />
             <span>to</span>
-            {firstBrtCode && firstCorridor && (
+            {focusedCorridor && (
               <StnRoundel
                 scale={0.65}
-                stationCode={firstBrtCode}
-                brtCorridor={firstCorridor}
+                stationCode={focusedCode}
+                brtCorridor={focusedCorridor}
               />
             )}
             <span className="font-semibold">{station.name}</span>

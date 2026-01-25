@@ -24,13 +24,11 @@ export default function MainStnFrame({ station, line_foc }: Props) {
     const finalIds = [...sortedIds, ...remainingCodes];
 
     // Move focused line to front if exists
-    if (typeof line_foc.id === "number") {
-      const focusIndex = finalIds.indexOf(line_foc.id);
+      const focusIndex = finalIds.indexOf(line_foc.mainBRTC);
       if (focusIndex !== -1) {
         finalIds.splice(focusIndex, 1);
-        finalIds.unshift(line_foc.id);
+        finalIds.unshift(line_foc.mainBRTC);
       }
-    }
 
     return finalIds
       .map(id => station.codes.find(c => c.corridorId === id))
@@ -38,45 +36,55 @@ export default function MainStnFrame({ station, line_foc }: Props) {
   }, [station.codes, station.brtCorridorIds, line_foc]);
 
   // 2️⃣ Ordered CorRoundels
-  const corRoundels = React.useMemo(() => {
-    // BRT corridors
-    const brtCorridors = station.brtCorridorIds
-      .slice()
-      .sort((a, b) => a - b)
-      .map(id => main_corridors.find(c => c.id === id))
-      .filter(Boolean) as BRTCorridor[];
+const corRoundels = React.useMemo(() => {
+  // 1. Map and tag with weights (Tier 1)
+  const brt = (station.brtCorridorIds || [])
+    .map(id => main_corridors.find(c => c.id === id))
+    .filter(Boolean)
+    .map(item => ({ ...item, _weight: 1 })); // Top Priority
 
-    // CBRT lines
-    const cbrtLines: CBRTLine[] = station.cbrtLineIds
-      .slice()
-      .sort()
-      .map(id => cbrt_lines.find(c => c.id === id))
-      .filter((c): c is CBRTLine => c !== undefined);
+  const cbrt = (station.cbrtLineIds || [])
+    .map(id => cbrt_lines.find(c => c.id === id))
+    .filter(Boolean)
+    .map(item => ({ ...item, _weight: 2 })); // Medium Priority
 
-    const nbrtLines: NBRTLine[] = station.nbrtLineIds
-    .slice().sort().map(id => nbrt_lines.find(c => c.id === id)).filter((c): c is NBRTLine => c !== undefined);
+  const nbrt = (station.nbrtLineIds || [])
+    .map(id => nbrt_lines.find(c => c.id === id))
+    .filter(Boolean)
+    .map(item => ({ ...item, _weight: 3 })); // Low Priority
 
-    let ordered: (BRTCorridor | CBRTLine | NBRTLine)[] = [...brtCorridors, ...cbrtLines, ...nbrtLines];
+  // 2. Combine
+  const ordered = [...brt, ...cbrt, ...nbrt];
 
-    // Move focused line to front if exists
-    if (line_foc) {
-      if (typeof line_foc.id === "number") {
-        const index = ordered.findIndex(c => c.id === line_foc.id);
-        if (index !== -1) {
-          const foc = ordered[index];
-          ordered = [foc, ...ordered.filter(c => c.id !== line_foc.id)];
-        }
-      } else {
-        const index = ordered.findIndex(c => c.id === line_foc.id);
-        if (index !== -1) {
-          const foc = ordered[index];
-          ordered = [foc, ...ordered.filter(c => c.id !== line_foc.id)];
-        }
-      }
+  // 3. Perform the Tiered Sort
+  ordered.sort((a, b) => {
+    // TIER 1: Type Weight (BRT > CBRT > NBRT)
+    if (a._weight !== b._weight) {
+      return a._weight - b._weight;
     }
 
-    return ordered.slice(0,15);
-  }, [station.brtCorridorIds, station.cbrtLineIds, station.nbrtLineIds, line_foc]);
+    // TIER 2: mainBRTC (numerical)
+    const numA = (a as any).mainBRTC || 0;
+    const numB = (b as any).mainBRTC || 0;
+    if (numA !== numB) {
+      return numA - numB;
+    }
+
+    // TIER 3: ID (lexicographical/string)
+    return String(a.id).localeCompare(String(b.id), undefined, { numeric: true });
+  });
+
+  // 4. Move focused line to front (overrides everything else)
+  if (line_foc) {
+    const index = ordered.findIndex(c => c.id === line_foc.id);
+    if (index !== -1) {
+      const [foc] = ordered.splice(index, 1);
+      ordered.unshift(foc);
+    }
+  }
+
+  return ordered.slice(0, 15);
+}, [station.brtCorridorIds, station.cbrtLineIds, station.nbrtLineIds, line_foc]);
 
   return (
     <div className="flex items-center gap-4 p-4 rounded-lg bg-black font-main text-white shadow-sm">
@@ -98,7 +106,7 @@ export default function MainStnFrame({ station, line_foc }: Props) {
 
       <div className="flex flex-col">
         <span className="text-2xl font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
-          {station.name}
+          {station.name} {station.accessible? "♿": ""}
         </span>
         <div className="flex gap-2 mt-1">
           {corRoundels.map(c => (

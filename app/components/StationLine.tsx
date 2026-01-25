@@ -147,21 +147,35 @@ export default function StationLine({ line_foc, thisStn, destStn, doorsSide }: P
 
         // Determine roundels to show: first or last station for each line along route
         const roundelsToShow = [
-          ...(station.brtCorridorIds ?? []),
-          ...(station.cbrtLineIds ?? []),
-          ...(station.nbrtLineIds ?? []),
+          ...(station.brtCorridorIds ?? []).map(id => ({ id, type: 1 })),
+          ...(station.cbrtLineIds ?? []).map(id => ({ id, type: 2 })),
+          ...(station.nbrtLineIds ?? []).map(id => ({ id, type: 3 })),
         ]
-        .filter(id => id !== line_foc.id)
-        .filter(id => {
-          const ex = routeLineExtremes.get(id);
-          return ex && (idx === ex.firstIdx || idx === ex.lastIdx);
-        })
-        .map(id => {
-          // find line object by id
-          const lineObj = main_corridors.find(l => l.id === id) || cbrt_lines.find(l => l.id === id) || nbrt_lines.find(l => l.id === id);
-          return lineObj;
-        })
-        .filter(Boolean) as (BRTCorridor | CBRTLine | NBRTLine)[];
+          .filter(item => item.id !== line_foc.id) // Exclude current line
+          .filter(item => {
+            const ex = routeLineExtremes.get(item.id);
+            return ex && (idx === ex.firstIdx || idx === ex.lastIdx);
+          })
+          .map(item => {
+            // Attach the actual line object and the type weight
+            const lineObj = main_corridors.find(l => l.id === item.id) || 
+                            cbrt_lines.find(l => l.id === item.id) || 
+                            nbrt_lines.find(l => l.id === item.id);
+            return lineObj ? { ...lineObj, _typeWeight: item.type } : null;
+          })
+          .filter((item): item is (any & { _typeWeight: number }) => !!item)
+          .sort((a, b) => {
+            // TIER 1: Type Weight (BRT=1, CBRT=2, NBRT=3)
+            if (a._typeWeight !== b._typeWeight) return a._typeWeight - b._typeWeight;
+
+            // TIER 2: mainBRTC (Numerical)
+            const numA = (a as any).mainBRTC || 0;
+            const numB = (b as any).mainBRTC || 0;
+            if (numA !== numB) return numA - numB;
+
+            // TIER 3: ID (String/Numeric comparison)
+            return String(a.id).localeCompare(String(b.id), undefined, { numeric: true });
+          });
 
         return (
             <div key={station.id} className="flex items-end shrink-0">
@@ -173,6 +187,7 @@ export default function StationLine({ line_foc, thisStn, destStn, doorsSide }: P
               oneWay={!(stationIdsDir1.includes(station.id) && stationIdsDir2.includes(station.id))}
               focused={station.id === thisId}
               roundels={roundelsToShow}
+              accessible={station.accessible}
             />
                 {idx !== stationOrder.length - 1 && (
                 <div className={!(stationIdsDir1.includes(station.id) && stationIdsDir2.includes(station.id))? "pb-0.5": "pb-2"}>
