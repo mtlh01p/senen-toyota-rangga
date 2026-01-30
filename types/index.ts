@@ -11,6 +11,7 @@ export type Station = {
   accessible?: boolean;
   payTransfer?: boolean;
   oneWay?: boolean;
+  hasTrain?: boolean;
 };
 
 export type BRTCorridor = {

@@ -163,7 +163,7 @@ const firstRoundelIsFocus = React.useMemo(() => {
 
       <div className="flex flex-col">
         <span className="text-2xl font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
-          {station.name} {station.accessible? "♿": ""} {station.oneWay? (doorfocus === "left" ? "→" : "←") : "↔"} {station.payTransfer? "💵" : ""} 
+          {station.name} {station.accessible? "♿": ""}{station.payTransfer? "💵" : ""}{station.hasTrain? "🚇": ""}{station.oneWay? (doorfocus === "left" ? "→" : "←") : ""}  
         </span>
         <div className="flex gap-2 mt-1 items-center">
           {corRoundels.map((c, index) => {

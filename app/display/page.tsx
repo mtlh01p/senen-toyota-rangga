@@ -11,14 +11,15 @@ type Props = {
     startStn?: string;
     endStn?: string;
     curLine?: string;
+    dirSel?: number;
   }>;
 };
 
 export default function Display({searchParams}: Props) {
   if(!searchParams) return notFound();
 
-  const { startStn, endStn, curLine } = use(searchParams);
-  if (!startStn || !endStn || !curLine) return notFound();
+  const { startStn, endStn, curLine, dirSel } = use(searchParams);
+  if (!startStn || !endStn || !curLine || dirSel === undefined) return notFound();
 
   const thisStn = stations.find(s => s.id === startStn);
   const destStn = stations.find(s => s.id === endStn);
@@ -109,6 +110,7 @@ export default function Display({searchParams}: Props) {
           thisStn={currentStation}
           destStn={destStn}
           line_foc={line_foc}
+          dirSel={dirSel}
         />
       </div>
 
@@ -119,6 +121,7 @@ export default function Display({searchParams}: Props) {
           thisStn={currentStation}
           destStn={destStn}
           line_foc={line_foc}
+          dirSel={dirSel}
         />
       </div>
 

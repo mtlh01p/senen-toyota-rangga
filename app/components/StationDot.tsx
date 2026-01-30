@@ -15,6 +15,7 @@ type Props = {
   side: "left" | "right";
   accessible?: boolean;
   stnItselfOneWay?: boolean;
+  hasTrain?: boolean;
   roundels: (BRTCorridor | CBRTLine | NBRTLine)[];
 };
 
@@ -29,6 +30,7 @@ export default function StationDot({
   roundels,
   stnItselfOneWay,
   accessible,
+  hasTrain,
   twoWayPay
 }: Props) {
   const opacity = reached || willReach ? 0.3 : 1;
@@ -56,7 +58,7 @@ export default function StationDot({
             opacity,
           }}
         >
-          {stnItselfOneWay && oneWay && side === "right" ? "←" : oneWay && side === "right" ? "↔" : ""}{accessible && side === "right" ? "♿" : ""}{twoWayPay && side === "right" ? "💵" : ""} {name} {twoWayPay && side === "left" ? "💵" : ""}{accessible && side === "left" ? "♿" : ""}{stnItselfOneWay && oneWay && side === "left" ? "→" : oneWay && side === "left" ? "↔" : ""}
+          {stnItselfOneWay && oneWay && side === "right" ? "←" : oneWay && side === "right" ? "" : ""}{accessible && side === "right" ? "♿" : ""}{twoWayPay && side === "right" ? "💵" : ""}{hasTrain && side === "left" ? "🚇" : ""} {name} {hasTrain && side === "right" ? "🚇" : ""}{twoWayPay && side === "left" ? "💵" : ""}{accessible && side === "left" ? "♿" : ""}{stnItselfOneWay && oneWay && side === "left" ? "→" : oneWay && side === "left" ? "" : ""}
         </span>
 
       {/* Dot (ANCHOR) */}

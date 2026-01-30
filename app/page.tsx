@@ -135,7 +135,7 @@ export default function Home() {
             (direction === 1 ? focusedLine.stationIdsDir1 : focusedLine.stationIdsDir2)[firstStation]
           }&endStn=${
             (direction === 1 ? focusedLine.stationIdsDir1 : focusedLine.stationIdsDir2)[lastStation]
-          }&curLine=${focusedLine.id}`}
+          }&curLine=${focusedLine.id}&dirSel=${direction}`}
           className="inline-block px-5 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition"
           >
           Go to Display

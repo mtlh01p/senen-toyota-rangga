@@ -9,6 +9,7 @@ type Props = {
   line_foc: BRTCorridor | CBRTLine;
   thisStn: Station;
   destStn: Station;
+  dirSel: number;
   doorsSide: "left" | "right";
 };
 
@@ -29,6 +30,7 @@ export default function StationLine({
   thisStn,
   destStn,
   doorsSide,
+  dirSel,
 }: Props) {
   const thisId = thisStn.id;
   const destId = destStn.id;
@@ -56,11 +58,45 @@ export default function StationLine({
     if (d1Valid && d1.this <= d1.dest) return stationIdsDir1;
     if (d2Valid && d2.this <= d2.dest) return stationIdsDir2;
 
+    if (thisId === destId) {
+        if(dirSel === 1) {
+            return stationIdsDir1;
+        } else {
+            return stationIdsDir2;
+        }
+      }
+      
     return stationIdsDir1;
-  }, [stationIdsDir1, stationIdsDir2, thisId, destId]);
+  }, [stationIdsDir1, stationIdsDir2, thisId, destId, dirSel]);
 
-  const stationOrder =
-    doorsSide === "right" ? [...chosenDir].reverse() : chosenDir;
+/* =========================
+   Left-trim windowing with min 15 visible
+   ========================= */
+
+const SHIFT_START_INDEX = 8;   // Keep current station near position 8
+const MIN_VISIBLE = 14;        // Never show fewer than this
+
+const totalStations = chosenDir.length;
+const currentIndexOriginal = chosenDir.indexOf(thisId);
+
+let start = 0;
+let maxStart = 0;
+
+if (totalStations >= 16) {
+  const desiredStart = currentIndexOriginal - SHIFT_START_INDEX;
+  maxStart = totalStations - MIN_VISIBLE;
+
+  start = Math.max(0, Math.min(desiredStart, maxStart));
+}
+const freezeScroll = start >= maxStart; 
+
+const visibleDir = chosenDir.slice(start);
+
+const stationOrder =
+  doorsSide === "right" ? [...visibleDir].reverse() : visibleDir;
+
+const hiddenCount = start; // how many stations were trimmed from the left
+const hasHiddenBefore = hiddenCount > 0;
 
   /* =========================
      One-way logic (NEW)
@@ -155,6 +191,8 @@ export default function StationLine({
     const DURATION_MS = 1200;
     const START_DELAY = 4000;
 
+    if(freezeScroll) { return; } // 🚨 NEW
+
     const start =
       doorsSide === "left" ? 0 : el.scrollWidth - el.clientWidth;
     const end =
@@ -183,7 +221,7 @@ export default function StationLine({
       clearTimeout(t);
       cancelAnimationFrame(rafId);
     };
-  }, [doorsSide, stationOrder.length]);
+  }, [doorsSide, stationOrder.length, freezeScroll]);
 
   /* =========================
      Disable user scroll
@@ -210,6 +248,17 @@ export default function StationLine({
       ref={containerRef}
       className="flex items-center overflow-x-scroll pt-34 px-12 pb-16 w-[70%] no-scrollbar pointer-events-none hide-scrollbar"
     >
+      {hasHiddenBefore && doorsSide === "left" && (
+        <div className="flex items-end shrink-0 pt-1">
+          <LineSegment
+            color={lineColor}
+            width={40}            // small visual stub
+            side={doorsSide}
+            focused={false}
+            fullOpacity={false}
+          />
+        </div>
+      )}
       {stationOrder.map((stationId, idx) => {
         const station = stations.find(s => s.id === stationId);
         if (!station) return null;
@@ -222,12 +271,15 @@ export default function StationLine({
         const willReach =
           doorsSide === "right" ? idx < destIndex : idx > destIndex;
 
-        const segmentWidth = Math.max(
-          (70 / (stationOrder.length - 1)) *
-            (window.innerWidth * 0.7) /
+        let segmentWidth = Math.max(
+          (66 / (stationOrder.length - 1)) *
+            (window.innerWidth * 0.66) /
             100,
           40
         );
+        if (hiddenCount > 0) { 
+          segmentWidth = 40;
+        }
 
         const roundelsToShow = [
           ...(station.brtCorridorIds ?? []).map(id => ({ id, type: 1 })),
@@ -272,6 +324,7 @@ export default function StationLine({
               focused={station.id === thisId}
               roundels={roundelsToShow}
               accessible={station.accessible}
+              hasTrain={station.hasTrain}
             />
 
             {idx !== stationOrder.length - 1 && (
@@ -307,6 +360,17 @@ export default function StationLine({
           </div>
         );
       })}
+      {hasHiddenBefore && doorsSide === "right" && (
+        <div className="flex items-end pt-1 shrink-0">
+          <LineSegment
+            color={lineColor}
+            width={40}            // small visual stub
+            side={doorsSide}
+            focused={false}
+            fullOpacity={false}
+          />
+        </div>
+      )}
     </div>
   );
 }

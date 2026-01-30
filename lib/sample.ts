@@ -105,6 +105,7 @@ export const stations: Station[] = [
     nbrtLineIds: [],
     doorside: "",
     payTransfer: true,
+    hasTrain: true,
   },
   {
     id: "1-02A",
@@ -115,6 +116,7 @@ export const stations: Station[] = [
     nbrtLineIds: ["1C", "1M", "1Q", "1W", "4K", "6M", "6N", "7B", "8D", "8E", "P11", "S61", "T31", ],
     doorside: "right",
     accessible: true,
+    hasTrain: true,
   },
   {
     id: "1-02B",
@@ -125,6 +127,7 @@ export const stations: Station[] = [
     nbrtLineIds: ["1C", "1M", "1Q", "1W", "4K", "6M", "6N", "7B", "8D", "8E", "P11", "S61", "T31",  ],
     doorside: "right",
     accessible: true,
+    hasTrain: true,
   },
   {
     id: "1-03",
@@ -145,6 +148,7 @@ export const stations: Station[] = [
     nbrtLineIds: ["1F", "1W", "6M", "S61", ],
     doorside: "right",
     accessible: true,
+    hasTrain: true,
   },
   {
     id: "1-05",
@@ -194,6 +198,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["6B"],
     nbrtLineIds: ["1B", "B25", ],
     doorside: "right",
+    hasTrain: true,
   },
   {
     id: "1-10",
@@ -214,6 +219,7 @@ export const stations: Station[] = [
     nbrtLineIds: ["9D", ],
     doorside: "right",
     accessible: true,
+    hasTrain: true,
   },
   {
     id: "1-12",
@@ -316,6 +322,7 @@ export const stations: Station[] = [
     doorside: "",
     accessible: true,
     oneWay: true,
+    hasTrain: true,
   },
   {
     id: "1-21",
@@ -347,6 +354,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A", "4D"],
     nbrtLineIds: [],
     doorside: "",
+    accessible: true,
   },
   {
     id: "2-02",
@@ -356,6 +364,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A"],
     nbrtLineIds: [],
     doorside: "right",
+    accessible: true,
   },
   {
     id: "2-03",
@@ -365,6 +374,8 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
+    hasTrain: true,
   },
   {
     id: "2-04",
@@ -374,6 +385,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "2-05",
@@ -383,6 +395,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "2-06",
@@ -401,6 +414,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A", "7F"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "2-08",
@@ -410,6 +424,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A", "7F"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "2-09",
@@ -419,6 +434,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A", "7F"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "2-10",
@@ -436,7 +452,7 @@ export const stations: Station[] = [
     brtCorridorIds: [2],
     cbrtLineIds: ["2A", "7F"],
     nbrtLineIds: [], 
-    doorside: "",
+    doorside: "right",
   },
   {
     id: "2-12",
@@ -446,6 +462,8 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A", "7F"],
     nbrtLineIds: ["21ST", "6H", "14B", ], 
     doorside: "right",
+    accessible: true,
+    hasTrain: true,
   },
   {
     id: "2-13",
@@ -456,6 +474,7 @@ export const stations: Station[] = [
     nbrtLineIds: [], 
     doorside: "right",
     oneWay: true,
+    accessible: true,
   },
   {
     id: "2-14",
@@ -466,6 +485,7 @@ export const stations: Station[] = [
     nbrtLineIds: [], 
     doorside: "left",
     oneWay: true,
+    accessible: true,
   },
   {
     id: "2-15",
@@ -476,6 +496,7 @@ export const stations: Station[] = [
     nbrtLineIds: [], 
     doorside: "left",
     oneWay: true,
+    accessible: true,
   },
   {
     id: "2-16",
@@ -486,6 +507,7 @@ export const stations: Station[] = [
     nbrtLineIds: ["6H", ], 
     doorside: "left",
     oneWay: true,
+    accessible: true,
   },
   {
     id: "2-17",
@@ -496,6 +518,7 @@ export const stations: Station[] = [
     nbrtLineIds: ["6H", ], 
     doorside: "left",
     oneWay: true,
+    accessible: true,
   },
   {
     id: "2-18",
@@ -505,6 +528,8 @@ export const stations: Station[] = [
     cbrtLineIds: ["5C", "7F", "10H", "8A"],
     nbrtLineIds: ["14A", ], 
     doorside: "right",
+    accessible: true,
+    hasTrain: true,
   },
   {
     id: "2-19",
@@ -514,6 +539,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["5C", "7F", "10H", "8A"],
     nbrtLineIds: ["14A", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "2-22",
@@ -523,6 +549,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A", "5C", "6A", "6B", "7F"],
     nbrtLineIds: ["1A", "12B", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "2-23",
@@ -533,6 +560,7 @@ export const stations: Station[] = [
     nbrtLineIds: [],
     doorside: "left",
     oneWay: true,
+    accessible: true,
   },
   {
     id: "2-24",
@@ -542,6 +570,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A", "5C", "7F"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "3-01",
@@ -552,6 +581,7 @@ export const stations: Station[] = [
     nbrtLineIds: [],
     doorside: "",
     payTransfer: true,
+    accessible: true,
   },
   {
     id: "3-02",
@@ -561,6 +591,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["3F"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "3-03",
@@ -570,6 +601,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["3F"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "3-04",
@@ -588,6 +620,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A", "3F"],
     nbrtLineIds: ["3E", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "3-06",
@@ -597,6 +630,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A", "3F"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "3-07",
@@ -606,6 +640,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A", "3F"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "3-08",
@@ -615,6 +650,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A", "3F"],
     nbrtLineIds: ["3D", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "3-09",
@@ -624,6 +660,8 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A", "3F", "3H"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
+    hasTrain: true,
   },
   {
     id: "3-10",
@@ -633,6 +671,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A", "3F", "3H", "8A"],
     nbrtLineIds: ["9E", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "3-11",
@@ -642,6 +681,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A", "3F", "3H", "9A", "8A"],
     nbrtLineIds: ["8K", "8M", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "3-12",
@@ -660,6 +700,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["7F", "8A"],
     nbrtLineIds: [], 
     doorside: "left",
+    accessible: true,
   },
   {
     id: "4-02",
@@ -669,6 +710,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["4D"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "4-03",
@@ -678,6 +720,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["4D"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "4-04",
@@ -687,6 +730,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["4D"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "4-05",
@@ -696,6 +740,8 @@ export const stations: Station[] = [
     cbrtLineIds: ["4D"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
+    hasTrain: true,
   },
   {
     id: "4-06",
@@ -705,6 +751,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["4D"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "4-07",
@@ -714,6 +761,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["4D"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "4-08",
@@ -723,6 +771,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["4D"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "4-09A",
@@ -752,6 +801,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["4D"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "4-11",
@@ -761,6 +811,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["4D"],
     nbrtLineIds: [], 
     doorside: "right",
+
   },
   {
     id: "4-12",
@@ -770,6 +821,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["4D"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "4-13",
@@ -788,6 +840,8 @@ export const stations: Station[] = [
     cbrtLineIds: ["4D"],
     nbrtLineIds: ["6M", "B25", ], 
     doorside: "",
+    accessible: true,
+    hasTrain: true,
   },
   {
     id: "4-15",
@@ -797,6 +851,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["4D"],
     nbrtLineIds: ["6M", "B25", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "4-16",
@@ -806,6 +861,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["4D"],
     nbrtLineIds: ["6M", "B25", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "4-17",
@@ -815,6 +871,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["6B"],
     nbrtLineIds: ["1B", "B25", ], 
     doorside: "",
+    hasTrain: true,
   },
   {
     id: "5-01", 
@@ -825,6 +882,7 @@ export const stations: Station[] = [
     nbrtLineIds: ["1W", ], 
     doorside: "right",
     payTransfer: true,
+    accessible: true,
   },
   {
     id: "5-02", 
@@ -834,6 +892,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["10H"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "5-03", 
@@ -843,6 +902,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["10H"],
     nbrtLineIds: ["12B", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "5-04", 
@@ -852,6 +912,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["10H"],
     nbrtLineIds: ["12B", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "5-05", 
@@ -861,6 +922,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["10H"],
     nbrtLineIds: ["12B", "14A", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "5-06", 
@@ -870,6 +932,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["5C"],
     nbrtLineIds: ["6H", "12B", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "5-07", 
@@ -879,6 +942,8 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A", "7F"],
     nbrtLineIds: ["21ST", "6H", "14B", ], 
     doorside: "right",
+    accessible: true,
+    hasTrain: true,
   },
   {
     id: "5-08", 
@@ -897,6 +962,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["5C"],
     nbrtLineIds: [], 
     doorside: "right",
+
   },
   {
     id: "5-10", 
@@ -906,6 +972,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["5C"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "5-11", 
@@ -915,6 +982,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["5C"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "5-12", 
@@ -951,6 +1019,8 @@ export const stations: Station[] = [
     cbrtLineIds: ["5C"],
     nbrtLineIds: ["B25", ], 
     doorside: "right",
+    accessible: true,
+    hasTrain: true,
   },
   {
     id: "5-16", 
@@ -961,6 +1031,7 @@ export const stations: Station[] = [
     nbrtLineIds: ["5B", "11M", "B25", ], 
     doorside: "right",
     oneWay: true,
+    hasTrain: true,
   },
   {
     id: "5-17", 
@@ -980,6 +1051,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["5C"],
     nbrtLineIds: ["5B", "5N", "B25", ], 
     doorside: "",
+    accessible: true,
   },
   {
     id: "6-01", 
@@ -989,6 +1061,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["6A", "6B", "6V"],
     nbrtLineIds: ["7E", ], 
     doorside: "left",
+    accessible: true,
   },
   {
     id: "6-02", 
@@ -998,6 +1071,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["6A", "6B", "6V"],
     nbrtLineIds: ["6N", "7E", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "6-03", 
@@ -1016,6 +1090,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["6A", "6B", "6V"],
     nbrtLineIds: ["6H", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "6-05", 
@@ -1088,6 +1163,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["6A", "4D", "13E", "L13E"],
     nbrtLineIds: ["6H", "6M", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "6-13", 
@@ -1097,6 +1173,8 @@ export const stations: Station[] = [
     cbrtLineIds: ["6A", "4D", "13E", "L13E"],
     nbrtLineIds: ["6C", "6H", "6K", "6M", ], 
     doorside: "right",
+    accessible: true,
+    hasTrain: true,
   },
   {
     id: "6-14", 
@@ -1106,6 +1184,8 @@ export const stations: Station[] = [
     cbrtLineIds: ["6A", "4D", "13E", "L13E"],
     nbrtLineIds: ["6C", "6H", "6M", ], 
     doorside: "right",
+    accessible: true,
+    hasTrain: true,
   },
   {
     id: "6-15", 
@@ -1115,6 +1195,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["6A", "4D", "13E", "L13E"],
     nbrtLineIds: ["6H", "6M", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "6-16", 
@@ -1133,6 +1214,8 @@ export const stations: Station[] = [
     cbrtLineIds: ["6A", "4D", "13E", "L13E"],
     nbrtLineIds: ["6H", "6M", ], 
     doorside: "right",
+    accessible: true,
+    hasTrain: true,
   },
   {
     id: "6-18", 
@@ -1143,6 +1226,7 @@ export const stations: Station[] = [
     nbrtLineIds: ["6M", ], 
     doorside: "left",
     oneWay: true,
+    accessible: true,
   },
   {
     id: "7-01", 
@@ -1153,6 +1237,8 @@ export const stations: Station[] = [
     nbrtLineIds: ["7B", ], 
     doorside: "",
     payTransfer: true,
+    accessible: true,
+    hasTrain: true,
   },
   {
     id: "7-02A", 
@@ -1163,6 +1249,7 @@ export const stations: Station[] = [
     nbrtLineIds: ["7B", "7E", ], 
     doorside: "right",
     payTransfer: true,
+    accessible: true,
   },
   {
     id: "7-02B", 
@@ -1173,6 +1260,7 @@ export const stations: Station[] = [
     nbrtLineIds: ["7B", "7E", ], 
     doorside: "right",
     payTransfer: true,
+    accessible: true,
   },
   {
     id: "7-03", 
@@ -1182,6 +1270,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["7F", "10D"],
     nbrtLineIds: ["7B", "7E", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "7-04", 
@@ -1218,6 +1307,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["5C", "9A"],
     nbrtLineIds: ["7Q", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "7-08", 
@@ -1247,6 +1337,7 @@ export const stations: Station[] = [
     nbrtLineIds: ["4K", "7D", ], 
     doorside: "right",
     accessible: true,
+    hasTrain: true,
   },
   {
     id: "7-11", 
@@ -1265,6 +1356,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["5C"],
     nbrtLineIds: ["5B", "5N", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "7-13", 
@@ -1283,6 +1375,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: ["6H", "D41", ], 
     doorside: "left",
+    hasTrain: true,
   },
   {
     id: "8-02", 
@@ -1311,6 +1404,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "8-05", 
@@ -1338,6 +1432,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["13B", "13E", "L13E"],
     nbrtLineIds: ["8D", "8E", "8N", "9E", ], 
     doorside: "right",
+    hasTrain: true,
   },
   {
     id: "8-08", 
@@ -1347,6 +1442,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "8-09", 
@@ -1356,6 +1452,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "8-10", 
@@ -1365,6 +1462,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: ["8D", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "8-11", 
@@ -1374,6 +1472,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "8-12", 
@@ -1383,6 +1482,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "8-13", 
@@ -1392,6 +1492,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "8-14", 
@@ -1401,6 +1502,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "8-15", 
@@ -1419,6 +1521,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: ["3D", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "8-19", 
@@ -1467,6 +1570,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["10H", "8A"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "8-23",
@@ -1476,6 +1580,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["2A", "3H"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "9-01",
@@ -1506,6 +1611,7 @@ export const stations: Station[] = [
     nbrtLineIds: ["4K", "7D", ], 
     doorside: "right",
     payTransfer: true,
+    hasTrain: true,
   },
   {
     id: "9-05B",
@@ -1516,6 +1622,7 @@ export const stations: Station[] = [
     nbrtLineIds: ["4K", "7D", ], 
     doorside: "right",
     payTransfer: true,
+    hasTrain: true,
   },
   {
     id: "9-06A",
@@ -1527,6 +1634,7 @@ export const stations: Station[] = [
     doorside: "right",
     payTransfer: true,
     accessible: true,
+    hasTrain: true,
   },
   {
     id: "9-06B",
@@ -1538,6 +1646,7 @@ export const stations: Station[] = [
     doorside: "right",
     payTransfer: true,
     accessible: true,
+    hasTrain: true,
   },
   {
     id: "9-07A",
@@ -1577,6 +1686,8 @@ export const stations: Station[] = [
     nbrtLineIds: ["4K", "5N", "9D", "P11", ], 
     doorside: "right",
     payTransfer: true,
+    hasTrain: true,
+    accessible: true,
   },
   {
     id: "9-09B",
@@ -1587,6 +1698,8 @@ export const stations: Station[] = [
     nbrtLineIds: ["4K", "5N", "9D", "P11", ], 
     doorside: "right",
     payTransfer: true,
+    hasTrain: true,
+    accessible: true,
   },
   {
     id: "9-10A",
@@ -1746,6 +1859,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: ["9F", ],
     doorside: "right",
+    hasTrain: true,
   },
   {
     id: "9-22",
@@ -1804,6 +1918,8 @@ export const stations: Station[] = [
     nbrtLineIds: [], 
     doorside: "",
     payTransfer: true,
+    accessible: true,
+    hasTrain: true,
   },
   {
     id: "10-02", 
@@ -1813,6 +1929,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["10D"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "10-03", 
@@ -1869,6 +1986,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["10D"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "10-08", 
@@ -1905,6 +2023,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["7F", "10D"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "10-12", 
@@ -1923,6 +2042,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["7F", "10D"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "10-14", 
@@ -1959,6 +2079,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "10-18", 
@@ -1968,6 +2089,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "10-19", 
@@ -1977,6 +2099,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["9N"],
     nbrtLineIds: ["7P", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "10-22", 
@@ -1987,6 +2110,7 @@ export const stations: Station[] = [
     nbrtLineIds: [], 
     doorside: "left",
     payTransfer: true,
+    accessible: true,
   },
   {
     id: "11-01", 
@@ -2006,6 +2130,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: ["11D", "11M", "11R", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "11-03", 
@@ -2033,6 +2158,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: ["11M", ], 
     doorside: "right",
+    hasTrain: true,
   },
   {
     id: "11-06", 
@@ -2069,6 +2195,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: ["11M", ], 
     doorside: "right",
+    hasTrain: true,
   },
   {
     id: "11-10", 
@@ -2105,6 +2232,8 @@ export const stations: Station[] = [
     cbrtLineIds: ["5C"],
     nbrtLineIds: ["5B", "11M", "B25", ], 
     doorside: "right",
+    accessible: true,
+    hasTrain: true,
   },
   {
     id: "12-02", 
@@ -2115,6 +2244,7 @@ export const stations: Station[] = [
     nbrtLineIds: ["1A", "12A", "12B", "12C", ], 
     doorside: "right",
     oneWay: true,
+    accessible: true,
   },
   {
     id: "12-03", 
@@ -2180,6 +2310,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: ["14A", "14B", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "12-14", 
@@ -2226,6 +2357,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["13B", "13E", "L13E", "6V"],
     nbrtLineIds: ["4K", "5N", "6U", "7B", "P11", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "13-02", 
@@ -2244,6 +2376,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["13B", "13E", "6V"],
     nbrtLineIds: ["4K", "7B", "P11", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "13-04", 
@@ -2253,6 +2386,8 @@ export const stations: Station[] = [
     cbrtLineIds: ["6V", "13B", "13E", "L13E"],
     nbrtLineIds: ["1C", "1M", "1Q", "1W", "4K", "6M", "6N", "7B", "8D", "8E", "P11", "S61", "T31", ],
     doorside: "right",
+    accessible: true,
+    hasTrain: true,
   },
   {
     id: "13-05", 
@@ -2271,6 +2406,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["13B", "13E", "L13E"],
     nbrtLineIds: ["8D", "8E", "8N", "9E", ], 
     doorside: "right",
+    hasTrain: true,
   },
   {
     id: "13-07", 
@@ -2325,6 +2461,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["13B", "13E", "L13E"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "13-14", 
@@ -2345,6 +2482,7 @@ export const stations: Station[] = [
     nbrtLineIds: [], 
     doorside: "",
     payTransfer: true,
+    accessible: true,
   },
   {
     id: "13-15", 
@@ -2354,6 +2492,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: [], 
     doorside: "",
+    accessible: true,
   },
   {
     id: "14-03", 
@@ -2363,6 +2502,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: ["14B", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "14-04", 
@@ -2382,6 +2522,7 @@ export const stations: Station[] = [
     nbrtLineIds: ["1W", ], 
     doorside: "left",
     oneWay: true,
+    accessible: true,
   },
   {
     id: "14-09", 
@@ -2391,6 +2532,7 @@ export const stations: Station[] = [
     cbrtLineIds: [],
     nbrtLineIds: ["14A", "14B", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "14-10", 

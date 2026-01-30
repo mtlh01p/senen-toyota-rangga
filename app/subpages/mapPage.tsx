@@ -9,10 +9,11 @@ type Props = {
   doorsSide: "left" | "right";
   thisStn: Station;
   destStn: Station;
+  dirSel: number;
   line_foc: BRTCorridor | CBRTLine;
 }
 
-export default function MapPage({doorsSide, thisStn, destStn, line_foc} : Props) {
+export default function MapPage({doorsSide, thisStn, destStn, line_foc, dirSel} : Props) {
     if (!thisStn || !destStn || !line_foc) return notFound();
     if (!VisibilityChecker({ timeType: line_foc.time })) return notFound();
   
@@ -63,6 +64,7 @@ export default function MapPage({doorsSide, thisStn, destStn, line_foc} : Props)
           thisStn={thisStn}
           destStn={destStn}
           line_foc={line_foc}
+          dirSel={dirSel}
         />
       </div>
     )
