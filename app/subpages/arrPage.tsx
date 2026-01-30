@@ -62,6 +62,7 @@ export default function ArrPage({ doorsSide, thisStn, destStn, line_foc }: Props
                   <MainStnFrame
                     station={thisStn}
                     line_foc={line_foc}
+                    doorfocus={doorsSide}
                   />
                 </div>
 

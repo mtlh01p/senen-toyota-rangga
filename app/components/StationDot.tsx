@@ -10,9 +10,11 @@ type Props = {
   reached: boolean;
   willReach: boolean;
   oneWay: boolean;
+  twoWayPay: boolean;
   focused: boolean;
   side: "left" | "right";
   accessible?: boolean;
+  stnItselfOneWay?: boolean;
   roundels: (BRTCorridor | CBRTLine | NBRTLine)[];
 };
 
@@ -25,7 +27,9 @@ export default function StationDot({
   oneWay,
   focused,
   roundels,
+  stnItselfOneWay,
   accessible,
+  twoWayPay
 }: Props) {
   const opacity = reached || willReach ? 0.3 : 1;
   const shape = oneWay ? (side === "right" ? "◀" : "▶") : "●";
@@ -52,7 +56,7 @@ export default function StationDot({
             opacity,
           }}
         >
-          {accessible && side === "right" ? "♿": ""} {name} {accessible && side === "left" ? "♿": ""}
+          {stnItselfOneWay && oneWay && side === "right" ? "←" : oneWay && side === "right" ? "↔" : ""}{accessible && side === "right" ? "♿" : ""}{twoWayPay && side === "right" ? "💵" : ""} {name} {twoWayPay && side === "left" ? "💵" : ""}{accessible && side === "left" ? "♿" : ""}{stnItselfOneWay && oneWay && side === "left" ? "→" : oneWay && side === "left" ? "↔" : ""}
         </span>
 
       {/* Dot (ANCHOR) */}

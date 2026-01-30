@@ -56,8 +56,8 @@ export default function NextPage({ doorsSide, thisStn, destStn, line_foc }: Prop
             {/* BOTTOM AREA */}
               <div className="grid grid-cols-3 items-center">
                 {/* Left arrow */}
-                <div className="text-left ml-9 text-8xl font-bold blink">
-                  {doorsSide === "right" ? "«" : "»"}
+                <div className="text-left ml-9 text-5xl font-bold blink">
+                  {doorsSide === "right" ? "◀" : "▶"}
                 </div>
 
                 {/* Centered MainStnFrame */}
@@ -65,12 +65,13 @@ export default function NextPage({ doorsSide, thisStn, destStn, line_foc }: Prop
                   <MainStnFrame
                     station={thisStn}
                     line_foc={line_foc}
+                    doorfocus={doorsSide}
                   />
                 </div>
 
                 {/* Right arrow */}
-                <div className="text-right mr-9 text-8xl font-bold blink">
-                  {doorsSide === "left" ? "»" : "«"}
+                <div className="text-right mr-9 text-5xl font-bold blink">
+                  {doorsSide === "left" ? "▶" : "◀"}
                 </div>
               </div>
           </div>

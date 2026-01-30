@@ -9,6 +9,8 @@ export type Station = {
   nbrtLineIds: string[];
   doorside: string;
   accessible?: boolean;
+  payTransfer?: boolean;
+  oneWay?: boolean;
 };
 
 export type BRTCorridor = {

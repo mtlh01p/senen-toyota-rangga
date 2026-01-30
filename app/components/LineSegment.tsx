@@ -30,9 +30,9 @@ export default function LineSegment({
         {focused && side && (
           <span
             className="absolute left-1/2 top-1/2 -translate-x-1/2 font-bold
-                      text-white text-xl blink pointer-events-none z-10"
+                      text-white text-md blink pointer-events-none z-10"
           >
-            {side === "left" ? "»" : "«"}
+            {side === "left" ? "▶" : "◀"}
           </span>
         )}
     </div>
