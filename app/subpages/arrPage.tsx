@@ -18,13 +18,13 @@ export default function ArrPage({ doorsSide, thisStn, destStn, line_foc }: Props
   if (!VisibilityChecker({ timeType: line_foc.time })) return notFound();
 
   return (
-    <div className="flex min-h-17.5 w-full items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+    <div className="flex h-57.25 border-2 w-full items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       {thisStn && line_foc && destStn && (
-        <div className="flex justify-center w-full">
-          <div className="w-full max-w-4xl bg-black text-white rounded-lg overflow-hidden">
+        <div className="flex h-full justify-center w-[calc(100%-2rem)] pr-1 pl-1 pt-4">
+          <div className="w-full max-w-4xl h-full bg-black text-white rounded-lg overflow-hidden">
             
             {/* TOP AREA */}
-            <div className="h-17.5 p-4 flex flex-col justify-start">
+            <div className="p-1 flex flex-col justify-start">
               <div
           className={`flex items-start justify-between`}
               >

@@ -547,7 +547,7 @@ export const stations: Station[] = [
     codes: [{ corridorId: 2, code: 22 }],
     brtCorridorIds: [2],
     cbrtLineIds: ["2A", "5C", "6A", "6B", "7F"],
-    nbrtLineIds: ["1A", "12B", ], 
+    nbrtLineIds: ["1A" ], 
     doorside: "right",
     accessible: true,
   },
@@ -782,6 +782,7 @@ export const stations: Station[] = [
     nbrtLineIds: [], 
     doorside: "right",
     payTransfer: true,
+    accessible: true,
   },
   {
     id: "4-09B",
@@ -790,7 +791,7 @@ export const stations: Station[] = [
     brtCorridorIds: [4],
     cbrtLineIds: ["4D"],
     nbrtLineIds: [], 
-    doorside: "left",
+    doorside: "",
     payTransfer: true,
   },
   {
@@ -831,6 +832,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["4D", "5C"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "4-14",
@@ -992,6 +994,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["4D", "5C"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "5-13", 
@@ -1154,6 +1157,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["6A", "9A", "9C", "13E", "L13E"],
     nbrtLineIds: ["6H", "6M", "9D", ], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "6-12", 
@@ -2033,6 +2037,7 @@ export const stations: Station[] = [
     cbrtLineIds: ["4D", "10D"],
     nbrtLineIds: [], 
     doorside: "right",
+    accessible: true,
   },
   {
     id: "10-13", 
@@ -2232,7 +2237,6 @@ export const stations: Station[] = [
     cbrtLineIds: ["5C"],
     nbrtLineIds: ["5B", "11M", "B25", ], 
     doorside: "right",
-    accessible: true,
     hasTrain: true,
   },
   {

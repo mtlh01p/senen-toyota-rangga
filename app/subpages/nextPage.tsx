@@ -17,13 +17,13 @@ export default function NextPage({ doorsSide, thisStn, destStn, line_foc }: Prop
   if (!thisStn || !destStn || !line_foc) return notFound();
   if (!VisibilityChecker({ timeType: line_foc.time })) return notFound();
   return (
-    <div className="flex min-h-17.5 w-full items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+    <div className="flex h-57.25 border-2 w-full items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       {thisStn && destStn && line_foc && (
-        <div className="flex justify-center w-full">
-          <div className="w-full max-w-4xl bg-black text-white rounded-lg overflow-hidden">
+        <div className="flex justify-center h-full w-[calc(100%-2rem)] pr-1 pl-1 pt-4">
+          <div className="w-full h-full max-w-4xl bg-black text-white rounded-lg overflow-hidden">
             
             {/* TOP AREA */}
-            <div className="h-17.5 p-4 flex flex-col justify-start">
+            <div className="p-1 flex flex-col justify-start">
               <div
           className={`flex items-start justify-between`}
               >
@@ -56,7 +56,7 @@ export default function NextPage({ doorsSide, thisStn, destStn, line_foc }: Prop
             {/* BOTTOM AREA */}
               <div className="grid grid-cols-3 items-center">
                 {/* Left arrow */}
-                <div className="text-left ml-9 text-5xl font-bold blink">
+                <div className="text-left text-5xl font-bold blink">
                   {doorsSide === "right" ? "◀" : "▶"}
                 </div>
 
@@ -70,7 +70,7 @@ export default function NextPage({ doorsSide, thisStn, destStn, line_foc }: Prop
                 </div>
 
                 {/* Right arrow */}
-                <div className="text-right mr-9 text-5xl font-bold blink">
+                <div className="text-right text-5xl font-bold blink">
                   {doorsSide === "left" ? "▶" : "◀"}
                 </div>
               </div>

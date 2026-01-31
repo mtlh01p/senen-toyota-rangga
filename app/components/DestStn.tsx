@@ -37,7 +37,7 @@ export default function DestStn({ station, line_foc }: Props) {
   const corridorMatch = focusedCorridor === line_foc;
 
   return (
-    <div className="flex items-center gap-4 p-4 rounded-lg bg-black text-white shadow-sm">
+    <div className="flex items-center gap-4 rounded-lg bg-black text-white shadow-sm">
       
       <div className="flex items-center gap-1 text-lg">
         {corridorMatch ? (

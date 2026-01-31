@@ -4,12 +4,15 @@ import StationDot from "@/app/components/StationDot";
 import LineSegment from "@/app/components/LineSegment";
 import { stations, main_corridors, cbrt_lines, nbrt_lines } from "@/lib/sample";
 import { Station, BRTCorridor, CBRTLine } from "@/types";
+import VisibilityChecker from "./VisibilityChecker";
+import { Time } from "@/lib/time";
+import FarLineSegment from "./FarLineSegment";
 
 type Props = {
   line_foc: BRTCorridor | CBRTLine;
   thisStn: Station;
   destStn: Station;
-  dirSel: number;
+  dirSel: string;
   doorsSide: "left" | "right";
 };
 
@@ -40,63 +43,85 @@ export default function StationLine({
   /* =========================
      Direction selection
      ========================= */
-  const chosenDir = useMemo(() => {
-    const idx = (dir: (number | string)[]) => ({
-      this: dir.indexOf(thisId),
-      dest: dir.indexOf(destId),
-    });
+const chosenDir = useMemo(() => {
+  const idx = (dir: (number | string)[]) => ({
+    this: dir.indexOf(thisId),
+    dest: dir.indexOf(destId),
+  });
 
-    const d1 = idx(stationIdsDir1);
-    const d2 = idx(stationIdsDir2);
+  const d1 = idx(stationIdsDir1);
+  const d2 = idx(stationIdsDir2);
 
-    const d1Valid = d1.this !== -1 && d1.dest !== -1;
-    const d2Valid = d2.this !== -1 && d2.dest !== -1;
+  const d1Valid = d1.this !== -1 && d1.dest !== -1;
+  const d2Valid = d2.this !== -1 && d2.dest !== -1;
 
-    if (d1Valid && !d2Valid) return stationIdsDir1;
-    if (d2Valid && !d1Valid) return stationIdsDir2;
+  // 🥇 RULE 1 — dirSel ALWAYS wins if that direction is valid
+  if (dirSel === "1" && d1Valid) return stationIdsDir1;
+  if (dirSel === "2" && d2Valid) return stationIdsDir2;
 
-    if (d1Valid && d1.this <= d1.dest) return stationIdsDir1;
-    if (d2Valid && d2.this <= d2.dest) return stationIdsDir2;
+  // 🥈 RULE 2 — Only one direction valid
+  if (d1Valid && !d2Valid) return stationIdsDir1;
+  if (d2Valid && !d1Valid) return stationIdsDir2;
 
-    if (thisId === destId) {
-        if(dirSel === 1) {
-            return stationIdsDir1;
-        } else {
-            return stationIdsDir2;
-        }
-      }
-      
-    return stationIdsDir1;
-  }, [stationIdsDir1, stationIdsDir2, thisId, destId, dirSel]);
+  // 🥉 RULE 3 — Both valid, choose forward progression
+  if (d1Valid && d1.this < d1.dest) return stationIdsDir1;
+  if (d2Valid && d2.this < d2.dest) return stationIdsDir2;
 
-/* =========================
-   Left-trim windowing with min 15 visible
-   ========================= */
+  // 🧯 FINAL FALLBACK
+  return stationIdsDir1;
+}, [stationIdsDir1, stationIdsDir2, thisId, destId, dirSel]);
 
-const SHIFT_START_INDEX = 8;   // Keep current station near position 8
-const MIN_VISIBLE = 14;        // Never show fewer than this
+
+const SHIFT_START_INDEX = 7;
 
 const totalStations = chosenDir.length;
 const currentIndexOriginal = chosenDir.indexOf(thisId);
+const destIndexOriginal = chosenDir.indexOf(destId);
+
+const HIDE_AFTER_THRESHOLD = 3;
+
+const distanceToTerminus = totalStations - 1 - destIndexOriginal;
+const stationsToHideAtEnd = Math.max(0, (distanceToTerminus - HIDE_AFTER_THRESHOLD));
+
+const end = Math.max(
+  destIndexOriginal + 1,
+  totalStations - stationsToHideAtEnd
+);
+
+// =========================
+// Simplified Dynamic Calculation
+// =========================
+const viewportWidth = typeof window !== "undefined" ? window.innerWidth * 0.66 : 1000;
+const minVisibleDynamic = Math.floor(viewportWidth / 42); // Your suggested metric
 
 let start = 0;
-let maxStart = 0;
 
-if (totalStations >= 16) {
-  const desiredStart = currentIndexOriginal - SHIFT_START_INDEX;
-  maxStart = totalStations - MIN_VISIBLE;
+if (totalStations > minVisibleDynamic) {
+// Reduce how aggressively we hide past stations if future stations are already hidden
+const adjustedShiftStart = Math.max(0, SHIFT_START_INDEX - stationsToHideAtEnd);
 
-  start = Math.max(0, Math.min(desiredStart, maxStart));
+const desiredStart = currentIndexOriginal - adjustedShiftStart;
+
+  // 1. Never trim so much that we have fewer than minVisibleDynamic stations
+  const maxStartByCount = totalStations - minVisibleDynamic;
+
+  // 2. Stop hiding more stations if the destination is already visible in the current window
+  // If destination is within (minVisibleDynamic) stations of the start, we lock the start
+  const maxStartByDestination = destIndexOriginal - (minVisibleDynamic - 1);
+
+  const safeMaxStart = Math.min(maxStartByCount, maxStartByDestination);
+
+  start = Math.max(0, Math.min(desiredStart, safeMaxStart));
 }
-const freezeScroll = start >= maxStart; 
 
-const visibleDir = chosenDir.slice(start);
+const visibleDir = chosenDir.slice(start, end);
 
 const stationOrder =
   doorsSide === "right" ? [...visibleDir].reverse() : visibleDir;
 
 const hiddenCount = start; // how many stations were trimmed from the left
 const hasHiddenBefore = hiddenCount > 0;
+const hasHiddenEnd = end < chosenDir.length;
 
   /* =========================
      One-way logic (NEW)
@@ -191,8 +216,6 @@ const hasHiddenBefore = hiddenCount > 0;
     const DURATION_MS = 1200;
     const START_DELAY = 4000;
 
-    if(freezeScroll) { return; } // 🚨 NEW
-
     const start =
       doorsSide === "left" ? 0 : el.scrollWidth - el.clientWidth;
     const end =
@@ -221,7 +244,7 @@ const hasHiddenBefore = hiddenCount > 0;
       clearTimeout(t);
       cancelAnimationFrame(rafId);
     };
-  }, [doorsSide, stationOrder.length, freezeScroll]);
+  }, [doorsSide, stationOrder.length]);
 
   /* =========================
      Disable user scroll
@@ -240,23 +263,68 @@ const hasHiddenBefore = hiddenCount > 0;
     };
   }, []);
 
+  const TrainVisibility = VisibilityChecker({ timeType: Time.Day7 });
+
   /* =========================
      Render
      ========================= */
   return (
-    <div
-      ref={containerRef}
-      className="flex items-center overflow-x-scroll pt-34 px-12 pb-16 w-[70%] no-scrollbar pointer-events-none hide-scrollbar"
-    >
-      {hasHiddenBefore && doorsSide === "left" && (
-        <div className="flex items-end shrink-0 pt-1">
-          <LineSegment
+  <div
+    ref={containerRef}
+    className="overflow-x-scroll pt-34 px-10 pb-16 w-full no-scrollbar pointer-events-none hide-scrollbar"
+  >
+    <div className="flex items-center w-max min-w-full justify-center">
+
+      {(hasHiddenEnd && doorsSide === "right") && (
+        <div className="flex items-end shrink-0">
+            <StationDot
+              name={stations.find(s => s.id === chosenDir[chosenDir.length - 1])?.name || "Unknown"}
+              reached={true}
+              willReach={false}
+              side={doorsSide}
+              oneWay={false}
+              stnItselfOneWay={stations.find(s => s.id === chosenDir[chosenDir.length - 1])?.oneWay ?? false}
+              twoWayPay={stations.find(s => s.id === chosenDir[chosenDir.length - 1])?.payTransfer ?? false}
+              focused={false}
+              roundels={[]}
+              accessible={stations.find(s => s.id === chosenDir[chosenDir.length - 1])?.accessible ?? false}
+              hasTrain={stations.find(s => s.id === chosenDir[chosenDir.length - 1])?.hasTrain && TrainVisibility}
+            />
+          <div className="flex items-end shrink-0 pb-2">
+          <FarLineSegment
             color={lineColor}
             width={40}            // small visual stub
             side={doorsSide}
             focused={false}
             fullOpacity={false}
           />
+          </div>
+        </div>
+      )}
+      {(hasHiddenBefore && doorsSide === "left") && (
+        <div className="flex items-end shrink-0">
+            <StationDot
+              name={stations.find(s => s.id === chosenDir[0])?.name || "Unknown"}
+              reached={true}
+              willReach={false}
+              side={doorsSide}
+              oneWay={false}
+              stnItselfOneWay={stations.find(s => s.id === chosenDir[0])?.oneWay ?? false}
+              twoWayPay={stations.find(s => s.id === chosenDir[0])?.payTransfer ?? false}
+              focused={false}
+              roundels={[]}
+              accessible={stations.find(s => s.id === chosenDir[0])?.accessible ?? false}
+              hasTrain={stations.find(s => s.id === chosenDir[0])?.hasTrain && TrainVisibility}
+            />
+          <div className="flex items-end shrink-0 pb-2">
+          <FarLineSegment
+            color={lineColor}
+            width={40}            // small visual stub
+            side={doorsSide}
+            focused={false}
+            fullOpacity={false}
+          />
+          </div>
         </div>
       )}
       {stationOrder.map((stationId, idx) => {
@@ -272,8 +340,8 @@ const hasHiddenBefore = hiddenCount > 0;
           doorsSide === "right" ? idx < destIndex : idx > destIndex;
 
         let segmentWidth = Math.max(
-          (66 / (stationOrder.length - 1)) *
-            (window.innerWidth * 0.66) /
+          (80 / (stationOrder.length - 1)) *
+            (window.innerWidth * 0.8) /
             100,
           40
         );
@@ -324,7 +392,7 @@ const hasHiddenBefore = hiddenCount > 0;
               focused={station.id === thisId}
               roundels={roundelsToShow}
               accessible={station.accessible}
-              hasTrain={station.hasTrain}
+              hasTrain={station.hasTrain && TrainVisibility}
             />
 
             {idx !== stationOrder.length - 1 && (
@@ -360,17 +428,59 @@ const hasHiddenBefore = hiddenCount > 0;
           </div>
         );
       })}
-      {hasHiddenBefore && doorsSide === "right" && (
-        <div className="flex items-end pt-1 shrink-0">
-          <LineSegment
+      {(hasHiddenEnd && doorsSide === "left") && (
+        <div className="flex items-end shrink-0">
+          <div className="flex items-end shrink-0 pb-2">
+          <FarLineSegment
             color={lineColor}
             width={40}            // small visual stub
             side={doorsSide}
             focused={false}
             fullOpacity={false}
           />
+          </div>
+            <StationDot
+              name={stations.find(s => s.id === chosenDir[chosenDir.length - 1])?.name || "Unknown"}
+              reached={true}
+              willReach={false}
+              side={doorsSide}
+              oneWay={false}
+              stnItselfOneWay={stations.find(s => s.id === chosenDir[chosenDir.length - 1])?.oneWay ?? false}
+              twoWayPay={stations.find(s => s.id === chosenDir[chosenDir.length - 1])?.payTransfer ?? false}
+              focused={false}
+              roundels={[]}
+              accessible={stations.find(s => s.id === chosenDir[chosenDir.length - 1])?.accessible ?? false}
+              hasTrain={stations.find(s => s.id === chosenDir[chosenDir.length - 1])?.hasTrain && TrainVisibility}
+            />
         </div>
       )}
+      {(hasHiddenBefore && doorsSide === "right") && (
+        <div className="flex items-end shrink-0">
+          <div className="flex items-end shrink-0 pb-2">
+          <FarLineSegment
+            color={lineColor}
+            width={40}            // small visual stub
+            side={doorsSide}
+            focused={false}
+            fullOpacity={false}
+          />
+          </div>
+            <StationDot
+              name={stations.find(s => s.id === chosenDir[0])?.name || "Unknown"}
+              reached={true}
+              willReach={false}
+              side={doorsSide}
+              oneWay={false}
+              stnItselfOneWay={stations.find(s => s.id === chosenDir[0])?.oneWay ?? false}
+              twoWayPay={stations.find(s => s.id === chosenDir[0])?.payTransfer ?? false}
+              focused={false}
+              roundels={[]}
+              accessible={stations.find(s => s.id === chosenDir[0])?.accessible ?? false}
+              hasTrain={stations.find(s => s.id === chosenDir[0])?.hasTrain && TrainVisibility}
+            />
+        </div>
+      )}
+      </div>
     </div>
   );
 }

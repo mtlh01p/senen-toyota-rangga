@@ -56,8 +56,8 @@ export default function VisibilityChecker({ timeType }: { timeType: Time }) {
     const ranges = {
       FIVE_AM: 50000,
       TEN_AM: 100000,
-      NINE_45_PM: 214500,
-      NINE_45_01_PM: 214501,
+      TEN_15_PM: 221500,
+      TEN_15_01_PM: 221501,
       FOUR_59_59_AM: 45959,
       SIX_AM: 60000,
       NINE_AM: 90000,
@@ -69,11 +69,11 @@ export default function VisibilityChecker({ timeType }: { timeType: Time }) {
     if (timeStr.startsWith("DayNight")) return true;
 
     if (timeStr.startsWith("Day") && !timeStr.includes("Night")) {
-      return currentTime >= ranges.FIVE_AM && currentTime <= ranges.NINE_45_PM;
+      return currentTime >= ranges.FIVE_AM && currentTime <= ranges.TEN_15_PM;
     }
 
     if (timeStr.startsWith("Night")) {
-      return currentTime >= ranges.NINE_45_01_PM || currentTime <= ranges.FOUR_59_59_AM;
+      return currentTime >= ranges.TEN_15_01_PM || currentTime <= ranges.FOUR_59_59_AM;
     }
 
     if (timeStr.startsWith("AMRush")) {

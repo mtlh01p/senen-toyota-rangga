@@ -11,7 +11,7 @@ type Props = {
     startStn?: string;
     endStn?: string;
     curLine?: string;
-    dirSel?: number;
+    dirSel?: string;
   }>;
 };
 

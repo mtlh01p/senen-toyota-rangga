@@ -15,7 +15,7 @@ export default function DoorsOpen({ isThisSide, display_side }: Props) {
       : `Doors open on ${isThisSide === "right" ? "this" : "opposite"} side`;
 
   return (
-    <div className="flex items-center gap-4 p-4 rounded-lg bg-black text-white shadow-sm mt-3">
+    <div className="flex items-center gap-4 rounded-lg bg-black text-white shadow-sm mt-3">
     { (display_side === "left") && (isThisSide !== "") && (
       <div className="flex items-center gap-1 text-lg text-white">
         <span>{doorEmoji}</span>

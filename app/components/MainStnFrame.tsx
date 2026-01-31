@@ -5,6 +5,7 @@ import StnRoundel from "@/app/components/StnRoundel";
 import CorRoundel from "@/app/components/CorRoundel";
 import { main_corridors, cbrt_lines, nbrt_lines } from "@/lib/sample";
 import VisibilityChecker from "@/app/components/VisibilityChecker";
+import { Time } from "@/lib/time";
 
 type Props = {
   station: Station;
@@ -143,8 +144,10 @@ const firstRoundelIsFocus = React.useMemo(() => {
   return corRoundels[0].id === line_foc.id;
 }, [corRoundels, line_foc]);
 
+const TrainVisibility = VisibilityChecker({ timeType: Time.Day7 });
+
   return (
-    <div className="flex items-center gap-4 p-4 rounded-lg bg-black font-main text-white shadow-sm">
+    <div className="flex items-center gap-4 p-1 rounded-lg bg-black font-main text-white shadow-sm">
       {/* StationCode Roundels */}
       <div className="flex gap-3">
         {orderedCodes.map(code => {
@@ -163,7 +166,7 @@ const firstRoundelIsFocus = React.useMemo(() => {
 
       <div className="flex flex-col">
         <span className="text-2xl font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
-          {station.name} {station.accessible? "♿": ""}{station.payTransfer? "💵" : ""}{station.hasTrain? "🚇": ""}{station.oneWay? (doorfocus === "left" ? "→" : "←") : ""}  
+          {station.name} {station.accessible? "♿": ""}{station.payTransfer? "💵" : ""}{station.hasTrain && TrainVisibility? "🚇": ""}{station.oneWay? (doorfocus === "left" ? "→" : "←") : ""}  
         </span>
         <div className="flex gap-2 mt-1 items-center">
           {corRoundels.map((c, index) => {

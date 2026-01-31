@@ -9,7 +9,7 @@ type Props = {
   doorsSide: "left" | "right";
   thisStn: Station;
   destStn: Station;
-  dirSel: number;
+  dirSel: string;
   line_foc: BRTCorridor | CBRTLine;
 }
 
@@ -58,7 +58,7 @@ export default function MapPage({doorsSide, thisStn, destStn, line_foc, dirSel} 
     const currentStation = stations.find(s => s.id === chosenDir[pointer]);
     if (!currentStation) return notFound();
     return (
-      <div className="flex min-h-22.5 w-full items-center justify-center font-pt">
+      <div className="flex h-57.25 w-full border-2 items-center justify-center font-pt">
         <StationLine
           doorsSide={doorsSide}
           thisStn={thisStn}
